@@ -1,0 +1,38 @@
+list-box ul {
+    display: grid;
+    position: absolute;
+    margin: 0;
+    box-shadow: var(--box-shadow);
+    background-color: var(--theme-element-background);
+    grid-template-columns: 1fr;
+    width: max-content;
+    max-height: 10rem;
+    padding: 0;
+    border-radius: 0.375rem;
+    color: var(--theme-text-primary-on-light);
+    z-index: 9;
+    overflow-y: auto;
+}
+
+list-box li {
+    display: flex;
+    align-items: center;
+    padding: 0 0.75rem;
+    min-height: 2rem;
+    color: var(--theme-text-primary-on-light);
+    cursor: pointer;
+    background-color: var(--theme-element-background);
+}
+
+list-box li[hidden] {
+    display: none;
+}
+
+list-box li:hover, .list-box__item--active {
+    background-color: var(--list-background-on-hover-color);
+}
+
+list-box li mark {
+    font-weight: 600;
+    background-color: unset;
+}

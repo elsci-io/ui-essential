@@ -1,0 +1,13 @@
+select-input list-box {
+    display: none;
+    margin-top: -0.625rem;
+}
+
+select-input text-input {
+    cursor: pointer;
+}
+
+select-input text-input .text-input__trailing-icon{
+    pointer-events: none;
+}
+

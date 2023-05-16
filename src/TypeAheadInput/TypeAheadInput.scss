@@ -1,0 +1,8 @@
+typeahead-input list-box {
+    display: none;
+    margin-top: -0.625rem;
+}
+
+typeahead-input.dropdown-select text-input .text-input__input {
+    pointer-events: none;
+}

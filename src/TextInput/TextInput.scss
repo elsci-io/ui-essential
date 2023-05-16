@@ -1,0 +1,141 @@
+text-input {
+    /*We probably shouldn't do it, but the label can be declared outside of md-text-input when it relates
+    to several fields at the time. So declaring the var at the root level for now.*/
+    --text-input__small-font-size: .75rem;
+    --text-input__label__left-padding: .25rem;
+    /*we need to use transform for labels, and they work only for absolutely positioned elements.
+    And those in turn need some non-statically position parent - otherwise it'll be positioned relative
+    to some other grand-parent and will fly away somewhere*/
+    position: relative;
+    /*leaving space for label to fly to when the field is active*/
+    padding-top: 1.5rem;
+    font-size: 1rem;
+    /*  Html template of this component has its own style where "display : none" this trick allows element
+     to be hidden until main css file is loaded */
+    display: block;
+}
+
+.text-input__input {
+    width: 100%;
+    box-sizing: border-box;
+
+    border: none;
+    border-bottom: 1px solid #DDD;
+    /*when input is focused it has an outline which we don't want*/
+    outline: none;
+    line-height: 1.5rem;
+    padding: .1rem 0 .1em var(--text-input__label__left-padding);
+    font-size: 1rem;
+    color: var(--mdc-theme-text-primary-on-light);
+}
+.text-input__input[disabled] {
+    opacity : .5;
+    cursor  : default;
+    background: white;
+}
+.text-input__input:focus {
+    border-bottom: 1px solid var(--mdc-theme-primary);
+}
+.text-input__input::placeholder {
+    /*We need a placeholder because it's the only way of checking if something is entered into the field w/o
+     using JS. There's a pseudo-class :placeholder-shown which allows us to control where the label is positioned.*/
+    color: transparent;
+    user-select: none;
+}
+.text-input__label {
+    position: absolute;
+    color: var(--md-theme-text-hint-on-light);
+    bottom: 2rem;
+    left: 0;
+    margin: 0;
+
+    /*Label overlays the input and acts like a placeholder, so to act as a placeholder it should
+    behave as if it didn't exist. */
+    pointer-events: none;
+    transform-origin: 0 0;
+    transform: translate3d(var(--text-input__label__left-padding), 1rem, 0);
+    transition: .1s ease-in-out;
+}
+.text-input__input:not(:focus):not(:placeholder-shown)+.text-input__label {
+    /*when we entered something and leave the field it's better to make the label grey instead of black*/
+    color: var(--md-theme-text-hint-on-light);
+}
+.text-input__input:focus + .text-input__label {
+    /*when we focus on the input, the label should jump on top of the field*/
+    transform: translate(var(--text-input__label__left-padding), -0.375rem);
+    font-size: var(--text-input__small-font-size);
+    color: var(--mdc-theme-primary);
+}
+.text-input__input:not(:placeholder-shown) + .text-input__label {
+    /*when placeholder isn't shown - it means we entered something into the field, so the label must stay at the top*/
+    transform: translate(var(--text-input__label__left-padding), -0.375rem);
+    font-size: var(--text-input__small-font-size);
+}
+
+.text-input__input:invalid + .text-input__label {
+    /*when we focus on the input, the label should jump on top of the field*/
+    color: var(--md-theme-input-border-error);
+}
+
+.text-input__input:invalid {
+    border-bottom: 1px solid var(--md-theme-input-border-error);
+}
+
+.text-input__input:invalid:not(:focus):not(:placeholder-shown)+.text-input__label {
+    /*when we entered something and leave the field it's better to make the label grey instead of black*/
+    color: var(--md-theme-input-border-error);
+}
+
+.text-input__error {
+    margin : 0;
+    font-size: var(--text-input__small-font-size);
+    height: var(--text-input__small-font-size);
+    color: var(--md-theme-input-border-error);
+    padding-left: var(--text-input__label__left-padding);
+}
+
+.text-input--with-right-icon .text-input__input, .text-input--select .text-input__input {
+    padding-right: 1rem;
+}
+
+.text-input__trailing-icon {
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--mdc-theme-text-secondary-on-light);
+}
+
+text-input[disabled] .text-input__trailing-icon {
+    display: none !important;
+}
+
+text-input[disabled] .text-input__input {
+    padding-right: 0 !important;
+}
+
+/* Hide stepper buttons */
+.text-input__input[type='number']::-webkit-outer-spin-button,
+.text-input__input[type='number']::-webkit-inner-spin-button,
+.text-input__input[type='number'] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+}
+
+.text-input__trailing-icon:hover {
+    color: var(--md-theme-text-primary-on-light);
+}
+
+.text-input__input:placeholder-shown + label + .text-input__trailing-icon {
+    display: none;
+}
+
+.text-input__input:not(:placeholder-shown) + label + .text-input__trailing-icon {
+    display: block;
+}
+
+.text-input__input[readonly] {
+    cursor: pointer;
+}
