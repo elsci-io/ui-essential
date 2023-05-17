@@ -10,12 +10,20 @@
   "author": "",
   "license": "ISC",
   "files": [
-    "bundle.css", "bundle.js",
+    "bundle.css",
+    "bundle.css.map",
+    "bundle.js",
+    "bundle.js.map",
+    "style.scss",
     "./src"
   ],
   "devDependencies": {
+    "css-loader": "^6.7.3",
+    "mini-css-extract-plugin": "^2.7.5",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
+    "source-map-loader": "^4.0.1",
+    "style-loader": "^3.3.2",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1"
   }
