@@ -28,6 +28,5 @@ module.exports = {
         }),
     ],
     mode:'production'
-    
 };
 

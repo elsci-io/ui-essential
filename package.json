@@ -17,6 +17,12 @@
     "style.scss",
     "./src"
   ],
+  "exports": {
+    ".": "./index.js",
+    "./styles": "./style.scss",
+    "./bundle.css": "./bundle.css",
+    "./bundle.js": "./bundle.js"
+  },
   "devDependencies": {
     "css-loader": "^6.7.3",
     "mini-css-extract-plugin": "^2.7.5",
