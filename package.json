@@ -2,26 +2,18 @@
   "name": "elsci-ui-essential",
   "version": "1.0.3",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "files": [
-    "bundle.css",
-    "bundle.css.map",
-    "bundle.js",
-    "bundle.js.map",
-    "style.scss",
-    "./src"
-  ],
   "exports": {
-    ".": "./index.js",
-    "./styles": "./style.scss",
-    "./bundle.css": "./bundle.css",
-    "./bundle.js": "./bundle.js"
+    ".": "./src/index.js",
+    "./styles": "./src/style.scss",
+    "./bundle.css": "./dist/bundle.css",
+    "./bundle.js": "./dist/bundle.js"
   },
   "devDependencies": {
     "css-loader": "^6.7.3",
