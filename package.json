@@ -1,12 +1,13 @@
 {
-  "name": "elsci-ui-essential",
+  "name": "@elsci/ui-essential",
   "version": "1.0.3",
-  "description": "",
+  "description": "Material Design components created for products built by elsci.io",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["material design"],
   "author": "",
   "license": "ISC",
   "exports": {
@@ -23,6 +24,7 @@
     "source-map-loader": "^4.0.1",
     "style-loader": "^3.3.2",
     "webpack": "^5.82.1",
-    "webpack-cli": "^5.1.1"
+    "webpack-cli": "^5.1.1",
+    "typescript": "5.1.3"
   }
 }
