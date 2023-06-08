@@ -25,8 +25,8 @@ export const safeText = (unsafe) => {
  * To be used when generating HTML via string interpolation e.g. {@code safeHtml`<div>${variables}</div>`} -
  * these variables will go through this function and have to be escaped should such string be shown on UI.
  *
- * @param {string[]} strings
- * @param {string} values
+ * @param {TemplateStringsArray} strings
+ * @param {string[]} values
  * @returns {string}
  */
 export const safeHtml = (strings, ...values) => {

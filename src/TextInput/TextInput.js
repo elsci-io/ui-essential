@@ -1,15 +1,22 @@
+// @ts-check
 import TextInputValidityState from "./TextInputValidityState";
 import { KeyCode, safeHtml } from "../utils"
 
 export default class TextInput extends HTMLElement {
     static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength", "min", "minlength",
         "name", "pattern", "readonly", "required", "step", "type", "value"]);
+    /** @type {HTMLInputElement} */
     #inputElement;
+    /** @type {HTMLElement} */
     #errorElement;
+    /** @type {TextInputValidityState} */
     #validityState;
     #callbacks = {
+        /** @type {Function[]} */
         onTrailingIconClick: [],
+        /** @type {Function[]} */
         onChangeValue: [],
+        /** @type {Function[]} */
         onInput: []
     };
 
@@ -47,8 +54,9 @@ export default class TextInput extends HTMLElement {
         return this.#inputElement.value;
     }
 
+    /** @param {string | null} value */
     set value(value) {
-        this.#inputElement.value = value;
+        this.#inputElement.value = value || '';
         this.checkValidity();
     }
 
@@ -67,18 +75,20 @@ export default class TextInput extends HTMLElement {
         this.#errorElement.textContent = this.#validityState.errorMessage;
     }
 
+    /** @param {Function} callback */
     onTrailingIconClick(callback) {
         this.#callbacks.onTrailingIconClick.push(callback);
     }
-
+    /** @param {Function} callback */
     onInput(callback) {
         this.#callbacks.onInput.push(callback);
     }
-
+    /** @param {Function} callback */
     onChangeValue(callback) {
         this.#callbacks.onChangeValue.push(callback);
     }
 
+    /** @param {KeyboardEvent} event */
     #onKeyDown(event) {
         if (this.#inputElement.type === "number" && (event.key === KeyCode.Up || event.key === KeyCode.Down))
             event.preventDefault();
