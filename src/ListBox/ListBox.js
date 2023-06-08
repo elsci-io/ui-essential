@@ -1,4 +1,4 @@
-import {getTextWidth, getCanvasFont, safeHtml} from "../utils";
+import {getTextWidth, getCanvasFont, safeHtml} from "../utils.js";
 
 export default class ListBox extends HTMLElement {
     #listElement;

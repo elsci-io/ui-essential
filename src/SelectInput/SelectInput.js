@@ -1,4 +1,4 @@
-import {KeyCode, safeHtml} from "../utils";
+import {KeyCode, safeHtml} from "../utils.js";
 
 export default class SelectInput extends HTMLElement {
     #inputElement;

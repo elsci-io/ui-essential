@@ -1,6 +1,6 @@
 import '../TextInput/TextInput.js';
 import '../ListBox/ListBox.js';
-import { KeyCode, safeHtml } from "../utils"
+import { KeyCode, safeHtml } from "../utils.js"
 
 export default class TypeAheadInput extends HTMLElement {
     /**

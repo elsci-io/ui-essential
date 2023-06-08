@@ -1,6 +1,6 @@
 // @ts-check
-import TextInputValidityState from "./TextInputValidityState";
-import { KeyCode, safeHtml } from "../utils"
+import TextInputValidityState from "./TextInputValidityState.js";
+import { KeyCode, safeHtml } from "../utils.js"
 
 export default class TextInput extends HTMLElement {
     static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength", "min", "minlength",
