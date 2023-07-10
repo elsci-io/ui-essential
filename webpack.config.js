@@ -1,6 +1,7 @@
 import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { fileURLToPath } from 'url';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -30,7 +31,19 @@ export default {
             filename: 'bundle.css',
             chunkFilename: '[id].css'
         }),
+        new HtmlWebpackPlugin({
+            template: './src/index.html',
+            filename: 'index.html'
+        })
     ],
+    devServer: {
+        static: {
+            directory: path.join(__dirname, 'dist'),
+        },
+        compress: true,
+        host: '0.0.0.0',
+        port: 8081,
+    },
     mode:'production'
 };
 

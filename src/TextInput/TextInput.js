@@ -155,7 +155,7 @@ export default class TextInput extends HTMLElement {
         const trailingIconName = this.getAttribute("data-icon") || "";
         return safeHtml`<input class="text-input__input" placeholder="needed for CSS">
                 <label class="text-input__label">${this.getAttribute("label")}</label>
-                <i class="text-input__trailing-icon material-icons">${trailingIconName}</i>
+                <i class="text-input__trailing-icon material-symbols-outlined">${trailingIconName}</i>
                 <p class="text-input__error"></p>`;
     }
 

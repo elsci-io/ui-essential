@@ -26,7 +26,7 @@ text-input {
     line-height: 1.5rem;
     padding: .1rem 0 .1em var(--text-input__label__left-padding);
     font-size: 1rem;
-    color: var(--mdc-theme-text-primary-on-light);
+    color: var(--theme-text-primary-on-light);
 }
 .text-input__input[disabled] {
     opacity : .5;
@@ -34,7 +34,7 @@ text-input {
     background: white;
 }
 .text-input__input:focus {
-    border-bottom: 1px solid var(--mdc-theme-primary);
+    border-bottom: 1px solid var(--theme-primary);
 }
 .text-input__input::placeholder {
     /*We need a placeholder because it's the only way of checking if something is entered into the field w/o
@@ -44,7 +44,7 @@ text-input {
 }
 .text-input__label {
     position: absolute;
-    color: var(--md-theme-text-hint-on-light);
+    color: var(--theme-text-hint-on-light);
     bottom: 2rem;
     left: 0;
     margin: 0;
@@ -58,13 +58,13 @@ text-input {
 }
 .text-input__input:not(:focus):not(:placeholder-shown)+.text-input__label {
     /*when we entered something and leave the field it's better to make the label grey instead of black*/
-    color: var(--md-theme-text-hint-on-light);
+    color: var(--theme-text-hint-on-light);
 }
 .text-input__input:focus + .text-input__label {
     /*when we focus on the input, the label should jump on top of the field*/
     transform: translate(var(--text-input__label__left-padding), -0.375rem);
     font-size: var(--text-input__small-font-size);
-    color: var(--mdc-theme-primary);
+    color: var(--theme-primary);
 }
 .text-input__input:not(:placeholder-shown) + .text-input__label {
     /*when placeholder isn't shown - it means we entered something into the field, so the label must stay at the top*/
@@ -74,23 +74,23 @@ text-input {
 
 .text-input__input:invalid + .text-input__label {
     /*when we focus on the input, the label should jump on top of the field*/
-    color: var(--md-theme-input-border-error);
+    color: var(--theme-input-border-error);
 }
 
 .text-input__input:invalid {
-    border-bottom: 1px solid var(--md-theme-input-border-error);
+    border-bottom: 1px solid var(--theme-input-border-error);
 }
 
 .text-input__input:invalid:not(:focus):not(:placeholder-shown)+.text-input__label {
     /*when we entered something and leave the field it's better to make the label grey instead of black*/
-    color: var(--md-theme-input-border-error);
+    color: var(--theme-input-border-error);
 }
 
 .text-input__error {
     margin : 0;
     font-size: var(--text-input__small-font-size);
     height: var(--text-input__small-font-size);
-    color: var(--md-theme-input-border-error);
+    color: var(--theme-input-border-error);
     padding-left: var(--text-input__label__left-padding);
 }
 
@@ -104,7 +104,7 @@ text-input {
     bottom: 1rem;
     font-size: 1rem;
     cursor: pointer;
-    color: var(--mdc-theme-text-secondary-on-light);
+    color: var(--theme-text-secondary-on-light);
 }
 
 text-input[disabled] .text-input__trailing-icon {
@@ -125,7 +125,7 @@ text-input[disabled] .text-input__input {
 }
 
 .text-input__trailing-icon:hover {
-    color: var(--md-theme-text-primary-on-light);
+    color: var(--theme-text-primary-on-light);
 }
 
 .text-input__input:placeholder-shown + label + .text-input__trailing-icon {
@@ -138,4 +138,12 @@ text-input[disabled] .text-input__input {
 
 .text-input__input[readonly] {
     cursor: pointer;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 48
 }

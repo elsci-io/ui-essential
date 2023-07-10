@@ -127,7 +127,7 @@ export default class SelectInput extends HTMLElement {
             this.#inputElement.errorMessage = "Required";
         else
             this.#inputElement.errorMessage = "";
-        return this.#inputElement.isValid();
+        return this.#inputElement.checkValidity();
     }
 
     #htmlTemplate() {

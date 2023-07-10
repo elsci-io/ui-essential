@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>UI-essential</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
+    <style>
+        *{
+            font-size: 18px;
+            font-family: 'Lato', sans-serif;
+            line-height: 1.4;
+        }
+        hr {
+            margin: 4rem 0;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        h2 {
+            font-size: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .input-element {
+            display: flex;
+            justify-content: center;
+        }
+
+        .input-element__description {
+            padding: 1rem 0;
+            flex: 0 1 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .input-element__example {
+            padding: 2rem 0 2rem 2rem;
+            flex: 0 1 40%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .input-element__description-html {
+            margin: 1.5rem 0;
+            background: #dddddd4f;
+            border: 1px solid #DDDDDD;
+            border-radius: 5px;
+        }
+
+        .input-element__description-js {
+            background: #dddddd4f;
+            border: 1px solid #DDDDDD;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+
+        .form-input {
+            height: 64px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>UI-essential</h1>
+    <h2>Text Input</h2>
+    <div class="input-element">
+        <div class="input-element__description">
+            <div class="input-element__description-text">
+                TextInput - let user enter and edit text. It inherits most of the properties from the native input element. <br>
+                So, you can use most of the native input element attributes to control the text field behavior or change constraints. <br>
+                <br>
+                Here we create a text field for entering a temperature value. Let's fill in the attributes:
+                <ul>
+                    <li>"name" - used to identify the field in the form, so later we can access the value with querySelector 'text-input[name="Temperature"]'.</li>
+                    <li>"label" - used to display a label for the field. </li>
+                    <li>"type" - as we are entering a temperature value, we want to use a number type.</li>
+                    <li>"min" - we want to limit the minimum value to -273 degrees Celsius.</li>
+                    <li>"max" - we want to limit the maximum value to 999999 degrees Celsius.</li>
+                    <li>"required" - we want to make the field required, so the user can't submit the form without entering a value.</li>
+                </ul>
+            </div>
+            <pre class="input-element__description-html">
+                 <code class="language-html">
+&lt;text-input
+    name="Temperature"
+    label="Temperature, C°"
+    type="number"
+    min="-273"
+    max="999999"
+    required&gt;
+&lt;/text-input&gt;
+                 </code>
+            </pre>
+            <div class="input-element__description-text">Set the default value.</div>
+            <pre class="input-element__description-js"><code>
+const temperature = document.querySelector('text-input[name="Temperature"]');
+temperature.value = '20'
+            </code></pre>
+        </div>
+        <div class="input-element__example">
+            <h3>Try it</h3>
+            <text-input
+                    name="Temperature"
+                    label="Temperature, C°"
+                    type="number"
+                    min="-273"
+                    max="999999" required></text-input>
+        </div>
+    </div>
+    <hr/>
+    <h2>Select Input</h2>
+    <div class="input-element">
+        <div class="input-element__description">
+            <div class="input-element__description-text">
+                SelectInput - let user select an option from a list of predefined options.<br>
+                <br>
+                Here we create a select field for selecting a temperature unit. Let's fill in the attributes:
+                <ul>
+                    <li>"name" - used to identify the field in the form, so later we can access the value with querySelector 'select-input[name="Unit"]'.</li>
+                    <li>"label" - used to display a label for the field.</li>
+                </ul>
+            </div>
+            <pre class="input-element__description-html">
+            <code class="language-html">
+&lt;select-input
+    name="Unit"
+    label="Unit"
+    required&gt;
+&lt;/select-input&gt;</code>
+        </pre>
+            <div class="input-element__description-text">But we also need to add options to the select field. And set the default value.</div>
+            <pre class="input-element__description-js">
+            <code>
+const selectInput =
+    document.querySelector('select-input[name="Unit"]');
+const selectInputOptions = [
+    {displayName: "C"},
+    {displayName: "K"},
+    {displayName: "F"},
+];
+selectInput.options = selectInputOptions;
+selectInput.value = selectInputOptions[0];
+            </code>
+        </pre>
+        </div>
+        <div class="input-element__example">
+            <h3>Try it</h3>
+            <div class="form-input"><select-input name="Unit" label="Unit" required></select-input></div>
+        </div>
+    </div>
+    <hr/>
+    <h2>Typeahead Input</h2>
+    <div class="input-element">
+        <div class="input-element__description">
+            <div class="input-element__description-text">
+                TypeaheadInput - let user select an option from a list of predefined options. In this input user can search (filter) options, by starting to enter the symbols<br>
+                <br>
+                Here we create a typeahead field for selecting a chemical substance. Let's fill in the attributes:
+                <ul>
+                    <li>"name" - used to identify the field in the form, so later we can access the value with querySelector 'typeahead-input[name="Substance"]'.</li>
+                    <li>"label" - used to display a label for the field.</li>
+                </ul>
+            </div>
+            <pre class="input-element__description-html">
+                <code class="language-html">
+&lt;typeahead-input
+    name="Substance"
+    label="Substance"
+    required&gt;
+&lt;/typeahead-input&gt;
+                </code>
+            </pre>
+            <div class="input-element__description-text">But we also need to add options to the typeahead field. And set the default value.</div>
+            <pre class="input-element__description-js"><code class="language-js">
+const typeAheadInput =
+     document.querySelector("typeahead-input[name="Substance"]");
+const typeAheadInputOptions = [
+     {displayName: "Product"},
+     {displayName: "Core"},
+     {displayName: "Mono"},
+     {displayName: "BOC"},
+];
+typeAheadInput.options = typeAheadInputOptions;
+typeAheadInput.value = typeAheadInputOptions[0];
+                </code></pre>
+        </div>
+        <div class="input-element__example">
+            <h3>Try it</h3>
+            <div class="form-input"><typeahead-input name="Substance" label="Substance" required></typeahead-input></div>
+        </div>
+    </div>
+
+</div>
+<script>
+    window.onload = () => {
+        const temperature = document.querySelector('text-input[name="Temperature"]');
+        temperature.value = '20'
+
+        const selectInput = document.querySelector('select-input[name="Unit"]');
+        const selectInputOptions = [
+            {displayName: "C"},
+            {displayName: "F"},
+            {displayName: "K"},
+        ];
+        selectInput.options = selectInputOptions;
+        selectInput.value = selectInputOptions[0];
+
+        const typeAheadInput = document.querySelector('typeahead-input[name="Substance"]');
+        const typeAheadInputOptions = [
+            {displayName: "Product"},
+            {displayName: "Core"},
+            {displayName: "Mono"},
+            {displayName: "BOC"},
+        ];
+        typeAheadInput.options = typeAheadInputOptions;
+        typeAheadInput.value = typeAheadInputOptions[0];
+
+        //This code adds color to html and css examples
+        hljs.highlightAll();
+    };
+</script>
+</body>
+</html>
