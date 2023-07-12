@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>UI-essential</title>
+    <title>Elsci Essential Components</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
@@ -34,6 +34,7 @@
         .github-link {
             margin: 2rem 0;
             font-size: 1.5rem;
+            text-align: center;
         }
 
         .input-element__row{
@@ -48,7 +49,7 @@
         .input-element__item {
             list-style: none;
             height: 4rem;
-            flex: 0 1 30%;
+            flex: 0 1 33%;
             margin-right: 2rem;
         }
 
@@ -66,7 +67,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>UI-essential</h1>
+    <h1>Elsci Essential Components</h1>
     <p class="github-link">Link to the <a href="https://github.com/elsci-io/ui-essential" target="_blank">GitHub repository</a></p>
     <div class="inputs-elements">
         <div class="input-element__row"><h3>Text Input</h3>
@@ -91,13 +92,14 @@
                     max="999999" required></text-input></li>
         </ul>
         <a href="#text-input">Read more</a>
-        </div>
+        </div><hr>
         <div class="input-element__row"><h3>Select Input</h3>
         <ul class="input-element__list">
             <li class="input-element__item"><select-input name="UnitActive" label="Unit (Active)" required></select-input></li>
             <li class="input-element__item"><select-input name="UnitDisabled" label="Unit (Disabled)" disabled=""></select-input></li>
         </ul>
         <a href="#select-input">Read more</a></div>
+        <hr>
             <div class="input-element__row"><h3>TypeaheadInput</h3>
         <ul class="input-element__list">
             <li class="input-element__item"><typeahead-input name="SubstanceActive" label="Substance (Active)" required></typeahead-input></li>
@@ -132,8 +134,7 @@ const temperature = document.querySelector('text-input[name="Temperature"]');
 temperature.value = '20'
             </code></pre>
         </div>
-    <hr/>
-    <h2 id="select-input">Select Input</h2>
+        <h2 id="select-input">Select Input</h2>
 
         <div class="input-element__description">
             <div>
@@ -163,8 +164,7 @@ selectInput.value = selectInputOptions[0];
             </code></pre>
         </div>
 
-    <hr/>
-    <h2 id="typeahead-input">Typeahead Input</h2>
+        <h2 id="typeahead-input">Typeahead Input</h2>
         <div class="input-element__description">
             <div>
                 TypeaheadInput - let user select an option from a list of predefined options. In this input user can search (filter) options, by starting to enter the symbols<br>
