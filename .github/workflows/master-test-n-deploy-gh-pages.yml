@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Test, Publish GitHub Pages
 
 on:
   push:
