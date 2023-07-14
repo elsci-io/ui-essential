@@ -56,8 +56,8 @@ export default class TextInput extends HTMLElement {
 
     /** @param {string | null} value */
     set value(value) {
-        this.#inputElement.value = value || '';
-        this.checkValidity();
+        this.#inputElement.value = ((typeof value == 'undefined' || !Number.isFinite(value)) && typeof value !== "string")? '' : value;
+                this.checkValidity();
     }
 
     checkValidity() {

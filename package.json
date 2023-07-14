@@ -1,12 +1,12 @@
 {
   "name": "@elsci-io/ui-essential",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Material Design components created for products built by elsci.io",
   "main": "src/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc && webpack",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha \"./test/**/*Test.js\"",
     "check-compilation": "echo 'Checking types using tsc' && tsc",
     "start": "webpack serve --open --host 0.0.0.0"
   },
@@ -25,9 +25,11 @@
     "./bundle.js": "./dist/bundle.js"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.3",
     "mini-css-extract-plugin": "^2.7.5",
+    "mocha": "^10.2.0",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",
     "source-map-loader": "^4.0.1",
@@ -36,5 +38,9 @@
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1",
     "webpack-dev-server": "^4.15.1"
+  },
+  "dependencies": {
+    "jsdom": "^22.1.0",
+    "xhr2": "^0.2.1"
   }
 }
