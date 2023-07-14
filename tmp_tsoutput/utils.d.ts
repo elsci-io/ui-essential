@@ -8,6 +8,7 @@
  */
 export function getTextWidth(text: string, font: string): any;
 export function getCanvasFont(el?: HTMLElement): string;
+export function isFiniteNumber(value: any): boolean;
 export const KeyCode: Readonly<{
     Shift: "ShiftLeft";
     Esc: "Escape";

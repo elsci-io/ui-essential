@@ -60,3 +60,10 @@ export function getCanvasFont(el = document.body) {
 function getCssStyle(element, prop) {
     return window.getComputedStyle(element, null).getPropertyValue(prop);
 }
+export function isFiniteNumber(value) {
+    if (typeof value !== 'undefined' && Number.isFinite(value)) {
+        return true;
+    }
+    else
+        return false;
+}
