@@ -1,6 +1,6 @@
 // @ts-check
 import TextInputValidityState from "./TextInputValidityState.js";
-import { KeyCode, safeHtml } from "../utils.js"
+import {isFiniteNumber, KeyCode, safeHtml} from "../utils.js"
 
 export default class TextInput extends HTMLElement {
     static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength", "min", "minlength",
@@ -56,7 +56,7 @@ export default class TextInput extends HTMLElement {
 
     /** @param {string | null} value */
     set value(value) {
-        this.#inputElement.value = ((typeof value == 'undefined' || !Number.isFinite(value)) && typeof value !== "string")? '' : value;
+        this.#inputElement.value = (isFiniteNumber(value) || typeof value == "string")? value : '';
                 this.checkValidity();
     }
 
