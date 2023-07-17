@@ -1,6 +1,6 @@
 {
   "name": "@elsci-io/ui-essential",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Material Design components created for products built by elsci.io",
   "main": "src/index.js",
   "type": "module",
@@ -37,9 +37,7 @@
     "typescript": "5.1.3",
     "webpack": "^5.82.1",
     "webpack-cli": "^5.1.1",
-    "webpack-dev-server": "^4.15.1"
-  },
-  "dependencies": {
+    "webpack-dev-server": "^4.15.1",
     "jsdom": "^22.1.0",
     "xhr2": "^0.2.1"
   }
