@@ -8,7 +8,7 @@ export default class TypeAheadInput extends HTMLElement {
      */
     set initialValue(arg: any);
     set options(arg: any);
-    isValid(): any;
+    checkValidity(): any;
     onChangeValue(callback: any): void;
     #private;
 }
