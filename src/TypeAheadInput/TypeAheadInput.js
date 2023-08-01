@@ -45,8 +45,8 @@ export default class TypeAheadInput extends HTMLElement {
         this.#dropdownElement.options = options;
     }
 
-    isValid() {
-        return this.#validate() && this.#inputElement.isValid();
+    checkValidity() {
+        return this.#validate() && this.#inputElement.checkValidity();
     }
 
     onChangeValue(callback) {
