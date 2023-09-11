@@ -1,5 +1,5 @@
 export default class TextInputValidityState {
-    constructor(inputElement: any);
+    constructor(textInput: any);
     get isValid(): boolean;
     get errorMessage(): string;
     checkValidity(): boolean;

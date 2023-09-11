@@ -1,9 +1,11 @@
 export default class TextInputValidityState {
+    #textInput;
     #inputElement;
     #isValid;
     #errorMessage;
-    constructor(inputElement) {
-        this.#inputElement = inputElement;
+    constructor(textInput) {
+        this.#textInput = textInput;
+        this.#inputElement = textInput.querySelector('input');
         this.#isValid = true;
         this.#errorMessage = "";
     }
@@ -51,7 +53,7 @@ export default class TextInputValidityState {
      */
     #isBlanknessConstraintViolated() {
         const trimmedText = this.#inputElement.value.trim();
-        return { valueMissing: this.#inputElement.hasAttribute("required") && trimmedText === "" };
+        return { valueMissing: this.#textInput.hasAttribute("required") && trimmedText === "" };
     }
     /**
      * This is a workaround for the fact that the browser does not validate decimals properly. It takes only
