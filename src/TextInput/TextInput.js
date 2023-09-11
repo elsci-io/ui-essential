@@ -57,7 +57,7 @@ export default class TextInput extends HTMLElement {
     /** @param {string | null} value */
     set value(value) {
         this.#inputElement.value = (isFiniteNumber(value) || typeof value == "string")? value : '';
-                this.checkValidity();
+        this.checkValidity();
     }
 
     checkValidity() {
