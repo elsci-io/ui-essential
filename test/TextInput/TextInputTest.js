@@ -141,6 +141,12 @@ describe('TextInput', () => {
             const element = JsDomUtils.insertHtml(`<text-input type="number" value="3.141592"></text-input>`);
             assert.ok(element.checkValidity());
         });
+        it('should not be valid when value is float, but step=1', () => {
+            const element = JsDomUtils.insertHtml(`<text-input type="number" step="1"></text-input>`);
+            element.value = 3.141592
+            assert.ok(!element.checkValidity());
+            assert.strictEqual(element.errorMessage, 'Must be an integer');
+        });
     });
 });
 

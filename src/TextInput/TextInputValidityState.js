@@ -45,8 +45,11 @@ export default class TextInputValidityState {
 	 *  - rangeOverflow: if the input element is a number and the value is greater than the max attribute.
 	 */
 	#getCustomValidity() {
+		const {badInput, customError, patternMismatch, typeMismatch, valid, rangeOverflow, rangeUnderflow, tooLong,
+			tooShort, valueMissing, stepMismatch} = this.#inputElement.validity;
 		const cv = Object.assign({},
-			this.#inputElement.validity,
+			{badInput, customError, patternMismatch, typeMismatch, valid, rangeOverflow, rangeUnderflow, tooLong,
+				tooShort, valueMissing, stepMismatch},
 			this.#isBlanknessConstraintViolated(),
 			this.#isRangeConstraintViolated()
 		);
