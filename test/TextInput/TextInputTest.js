@@ -63,9 +63,9 @@ describe('TextInput', () => {
             });
         });
         describe('required', () => {
-            it('sets required through attribute', () => {
+            it('required does not propagated to the inner input', () => {
                 const element = JsDomUtils.insertHtml(`<text-input required></text-input>`);
-                assert.ok(element.querySelector('input').hasAttribute('required'));
+                assert.ok(!element.querySelector('input').hasAttribute('required'));
             });
         });
         describe('readonly', () => {

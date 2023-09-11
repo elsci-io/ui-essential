@@ -3,8 +3,10 @@ import TextInputValidityState from "./TextInputValidityState.js";
 import {isFiniteNumber, KeyCode, safeHtml} from "../utils.js"
 
 export default class TextInput extends HTMLElement {
-    static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength", "min", "minlength",
-        "name", "pattern", "readonly", "required", "step", "type", "value"]);
+    static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength",
+        "min", "minlength", "name", "pattern", "readonly", "step", "type", "value"
+        /* "required" - we do not want to set attribute required when render text-input, because in this case all
+        required inputs becomes red, as solution we just leave it in the root element and do this validation manually */]);
     /** @type {HTMLInputElement} */
     #inputElement;
     /** @type {HTMLElement} */
@@ -24,7 +26,7 @@ export default class TextInput extends HTMLElement {
         this.innerHTML = this.#htmlTemplate();
         this.#inputElement = this.querySelector("input");
         this.#errorElement = this.querySelector(".text-input__error");
-        this.#validityState = new TextInputValidityState(this.#inputElement);
+        this.#validityState = new TextInputValidityState(this);
         this.#fillInputAttributes();
         this.#addListeners();
         if (this.hasAttribute("value"))
