@@ -58,7 +58,7 @@ export default class TextInput extends HTMLElement {
     }
     checkValidity() {
         const isValid = this.#validityState.checkValidity();
-        this.#errorElement.textContent = this.#validityState.errorMessage;
+        this.errorMessage = this.#validityState.errorMessage;
         return isValid;
     }
     get errorMessage() {
