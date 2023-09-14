@@ -80,6 +80,10 @@ export default class TextInput extends HTMLElement {
     onChangeValue(callback) {
         this.#callbacks.onChangeValue.push(callback);
     }
+    // @ts-ignore
+    focus(options) {
+        this.#inputElement.focus(options);
+    }
     /** @param {KeyboardEvent} event */
     #onKeyDown(event) {
         if (this.#inputElement.type === "number" && (event.key === KeyCode.Up || event.key === KeyCode.Down))

@@ -24,5 +24,6 @@ export default class TextInput extends HTMLElement {
     onInput(callback: Function): void;
     /** @param {Function} callback */
     onChangeValue(callback: Function): void;
+    focus(options: any): void;
     #private;
 }
