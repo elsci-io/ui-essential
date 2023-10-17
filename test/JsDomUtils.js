@@ -1,5 +1,6 @@
 import {JSDOM, VirtualConsole} from "jsdom";
 import XMLHttpRequest from "xhr2";
+import canvas from 'canvas';
 /**
  * This class is used to initialize the JSDOM environment for testing.
  * Virtual DOM will be created and initialized only once in the beginning of the first test suite.
@@ -48,6 +49,7 @@ export default class JsDomUtils {
         global.KeyboardEvent = dom.window.KeyboardEvent;
         global.MouseEvent = dom.window.MouseEvent;
         global.XMLHttpRequest = XMLHttpRequest;
+        const canvasVer = canvas.version; // call any canvas method to prevent removing its import statement
         JsDomUtils.#mockGetBoundingRect();
         await JsDomUtils.#loadCustomElements();
         JsDomUtils.#isInitialized = true;
@@ -66,6 +68,7 @@ export default class JsDomUtils {
 
     static async #loadCustomElements() {
         await import('../src/TextInput/TextInput.js');
+        await import('../src/TypeAheadInput/TypeAheadInput.js');
     }
 
 

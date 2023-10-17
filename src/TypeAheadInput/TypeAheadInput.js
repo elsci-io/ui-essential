@@ -13,6 +13,7 @@ export default class TypeAheadInput extends HTMLElement {
     #dropdownElement;
     #currentValue;
     #lastValidValue = null;
+    #shouldMatchOptions;
     #callbacks = {
         onChangeValue: []
     }
@@ -21,6 +22,7 @@ export default class TypeAheadInput extends HTMLElement {
         this.innerHTML = this.#htmlTemplate();
         this.#inputElement = this.querySelector("text-input");
         this.#dropdownElement = this.querySelector("list-box");
+        this.#shouldMatchOptions = this.hasAttribute("shouldMatchOptions")
         this.#addListeners();
     }
 
@@ -137,6 +139,11 @@ export default class TypeAheadInput extends HTMLElement {
         if (this.value && this.value.displayName === inputText) {
             this.#setErrorMessage("");
             return true; // assume that value is valid if it is the same as the initial value
+        }
+        if (this.#shouldMatchOptions) {
+            this.#setErrorMessage("");
+            this.#currentValue = {displayName: inputText};
+            return true; // assume that value is valid if it should not match to any option
         }
         for (const option of this.#dropdownElement.options) {
             if (option.displayName === inputText) {
