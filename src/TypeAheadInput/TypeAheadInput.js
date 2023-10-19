@@ -47,6 +47,10 @@ export default class TypeAheadInput extends HTMLElement {
         this.#dropdownElement.options = options;
     }
 
+    set errorMessage(message) {
+        this.#inputElement.errorMessage = message;
+    }
+
     checkValidity() {
         return this.#validate() && this.#inputElement.checkValidity();
     }
@@ -56,7 +60,7 @@ export default class TypeAheadInput extends HTMLElement {
     }
 
     #onInput() {
-        this.#setErrorMessage("");
+        this.errorMessage = "";
         this.#filterDatalist();
         if (!this.#dropdownElement.isVisible())
             this.#dropdownElement.show();
@@ -137,29 +141,25 @@ export default class TypeAheadInput extends HTMLElement {
             return true; // assume that value is valid if it is empty, otherwise required attribute should be set
         }
         if (this.value && this.value.displayName === inputText) {
-            this.#setErrorMessage("");
+            this.errorMessage = "";
             return true; // assume that value is valid if it is the same as the initial value
         }
         if (!this.#shouldMatchOptions) {
-            this.#setErrorMessage("");
+            this.errorMessage = "";
             this.#currentValue = {displayName: inputText};
             return true; // assume that value is valid if it should not match to any option
         }
         for (const option of this.#dropdownElement.options) {
             if (option.displayName === inputText) {
-                this.#setErrorMessage("");
+                this.errorMessage = "";
                 this.#currentValue = option;
                 this.#inputElement.value = option.displayName;
                 return true;
             }
         }
         this.#currentValue = null;
-        this.#setErrorMessage("Select from list");
+        this.errorMessage = "Select from list";
         return false;
-    }
-
-    #setErrorMessage(message) {
-        this.#inputElement.errorMessage = message;
     }
 
     #filterDatalist() {
