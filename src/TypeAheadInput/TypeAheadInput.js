@@ -140,7 +140,7 @@ export default class TypeAheadInput extends HTMLElement {
             this.#setErrorMessage("");
             return true; // assume that value is valid if it is the same as the initial value
         }
-        if (this.#shouldMatchOptions) {
+        if (!this.#shouldMatchOptions) {
             this.#setErrorMessage("");
             this.#currentValue = {displayName: inputText};
             return true; // assume that value is valid if it should not match to any option
