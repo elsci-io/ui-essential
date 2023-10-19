@@ -161,13 +161,14 @@ export default class TypeAheadInput extends HTMLElement {
     #htmlTemplate() {
         const requiredAttribute = this.hasAttribute("required") ? "required" : "";
         const disabledAttribute = this.hasAttribute("disabled") ? "disabled" : "";
+        const iconName = this.hasAttribute("no-icon") ? "" : "close";
         return safeHtml `
             <text-input 
                 class="text-input--with-right-icon" 
                 label="${this.getAttribute("label")}" 
                 ${requiredAttribute}
                 ${disabledAttribute}
-                data-icon="close"
+                data-icon="${iconName}"
                 autocomplete="off"
             ></text-input>
             <list-box></list-box>`;
