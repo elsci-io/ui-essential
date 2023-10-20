@@ -26,6 +26,9 @@ export default class TypeAheadInput extends HTMLElement {
     get value() {
         return this.#currentValue;
     }
+    get rawValue() {
+        return this.#inputElement.value;
+    }
     set value(value) {
         this.#currentValue = value;
         this.#inputElement.value = value && value.displayName ? value.displayName : "";

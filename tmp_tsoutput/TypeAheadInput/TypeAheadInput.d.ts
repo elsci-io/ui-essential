@@ -3,6 +3,7 @@ export default class TypeAheadInput extends HTMLElement {
     connectedCallback(): void;
     set value(arg: any);
     get value(): any;
+    get rawValue(): any;
     /**
      * Sets the initial value of the input, as well as the last valid value.
      */
