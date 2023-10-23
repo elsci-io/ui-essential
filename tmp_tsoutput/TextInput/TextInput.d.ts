@@ -25,5 +25,7 @@ export default class TextInput extends HTMLElement {
     /** @param {Function} callback */
     onChangeValue(callback: Function): void;
     focus(options: any): void;
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled: boolean): void;
     #private;
 }

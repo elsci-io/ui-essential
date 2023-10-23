@@ -84,6 +84,11 @@ export default class TextInput extends HTMLElement {
     focus(options) {
         this.#inputElement.focus(options);
     }
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled) {
+        this.toggleAttribute("disabled", isDisabled);
+        this.#inputElement.toggleAttribute("disabled", isDisabled);
+    }
     /** @param {KeyboardEvent} event */
     #onKeyDown(event) {
         if (this.#inputElement.type === "number" && (event.key === KeyCode.Up || event.key === KeyCode.Down))
