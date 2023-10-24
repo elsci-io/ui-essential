@@ -12,5 +12,7 @@ export default class TypeAheadInput extends HTMLElement {
     set errorMessage(arg: any);
     checkValidity(): any;
     onChangeValue(callback: any): void;
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled: boolean): void;
     #private;
 }
