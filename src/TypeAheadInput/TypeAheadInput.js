@@ -63,6 +63,13 @@ export default class TypeAheadInput extends HTMLElement {
         this.#callbacks.onChangeValue.push(callback);
     }
 
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled) {
+        this.toggleAttribute("disabled", isDisabled);
+        this.#inputElement.setDisabled(isDisabled);
+    }
+
+
     #onInput() {
         this.errorMessage = "";
         this.#filterDatalist();
