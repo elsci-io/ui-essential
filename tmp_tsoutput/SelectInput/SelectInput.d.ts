@@ -6,7 +6,7 @@ export default class SelectInput extends HTMLElement {
     showDropdown(): void;
     onShowDropdown(callback: any): void;
     onChangeValue(callback: any): void;
-    isValid(): any;
+    checkValidity(): any;
     connectedCallback(): void;
     #private;
 }

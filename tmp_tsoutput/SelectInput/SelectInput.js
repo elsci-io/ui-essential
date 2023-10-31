@@ -28,7 +28,7 @@ export default class SelectInput extends HTMLElement {
     onChangeValue(callback) {
         this.#callbacks.onChangeValue.push(callback);
     }
-    isValid() {
+    checkValidity() {
         return this.#validate();
     }
     connectedCallback() {
