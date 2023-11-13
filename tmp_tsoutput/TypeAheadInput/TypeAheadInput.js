@@ -42,6 +42,7 @@ export default class TypeAheadInput extends HTMLElement {
     }
     set options(options) {
         this.#dropdownElement.options = options;
+        this.#filterDatalist();
     }
     set errorMessage(message) {
         this.#inputElement.errorMessage = message;
