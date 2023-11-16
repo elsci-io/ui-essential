@@ -82,12 +82,14 @@ export default class SelectInput extends HTMLElement {
         }
         switch (event.key) {
             case KeyCode.Esc: {
+                event.preventDefault();
                 this.#hideDropdownAndValidate();
-                this.#inputElement.focus()
+                this.#inputElement.focus();
                 break;
             }
             case KeyCode.Enter: {
                 if (this.#dropdownElement.isVisible()) {
+                    event.stopPropagation();
                     if (this.#dropdownElement.hasSelectedElement())
                         this.#dropdownElement.triggerClickOnSelectedItem();
                     else
