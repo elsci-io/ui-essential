@@ -38,29 +38,17 @@ export const safeHtml = (strings, ...values) => {
     return result;
 }
 
-/**
- * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
- *
- * @param {String} text The text to be rendered.
- * @param {String} font The css font descriptor that text is to be rendered with (e.g. "bold 14px verdana").
- *
- * @see https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
- */
-export function getTextWidth(text, font) {
-    // re-use canvas object for better performance
-    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
-    const context = canvas.getContext("2d");
-    context.font = font;
-    const metrics = context.measureText(text);
-    return metrics.width;
-}
-
-export function getCanvasFont(el = document.body) {
-    const fontWeight = getCssStyle(el, 'font-weight') || 'normal';
-    const fontSize = getCssStyle(el, 'font-size') || '16px';
-    const fontFamily = getCssStyle(el, 'font-family') || 'Times New Roman';
-
-    return `${fontWeight} ${fontSize} ${fontFamily}`;
+/* @param {String} text */
+export function getTextWidth(text) {
+    const span = document.createElement("span");
+    document.body.appendChild(span)
+    span.textContent = text;
+    span.style.fontSize = '1rem';
+    span.style.visibility = 'hidden';
+    span.style.position = 'absolute';
+    const width = Math.ceil(span.getBoundingClientRect().width) + 1;
+    span.remove();
+    return width;
 }
 
 function getCssStyle(element, prop) {

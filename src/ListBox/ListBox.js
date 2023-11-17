@@ -1,4 +1,4 @@
-import {getTextWidth, getCanvasFont, safeHtml} from "../utils.js";
+import {getTextWidth, safeHtml} from "../utils.js";
 
 export default class ListBox extends HTMLElement {
     #listElement;
@@ -135,10 +135,9 @@ export default class ListBox extends HTMLElement {
     }
 
     #updatePosition() {
-        const font = getCanvasFont();
         const parentClientRect = this.parentElement.getBoundingClientRect();
         if (this.#maxItemWidth === 0) // calculate max item width only once
-            this.#maxItemWidth = Math.max(...this.#values.map(value => getTextWidth(value.displayName, font)), 0);
+            this.#maxItemWidth = Math.max(...this.#values.map(value => getTextWidth(value.displayName)), 0);
         // if parent element width is greater than max item width, set list width to parent width
         const widthToBe = Math.max(this.#maxItemWidth + 24/*paddings*/ + 22/*scrollbar*/, parentClientRect.width);
         // max allowed width is the distance from the left side of parent element to the right side of the page
