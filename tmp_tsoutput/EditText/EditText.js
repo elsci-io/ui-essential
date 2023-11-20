@@ -58,6 +58,7 @@ export default class EditText extends HTMLElement {
         this.#closeAndNotifyOnChange();
     }
     #onKeydown(evt) {
+        evt.stopPropagation();
         if (evt.key === KeyCode.Enter && !evt.repeat)
             this.#onEnter();
     }
