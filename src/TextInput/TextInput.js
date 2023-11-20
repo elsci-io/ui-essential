@@ -21,6 +21,8 @@ export default class TextInput extends HTMLElement {
         /** @type {Function[]} */
         onInput: []
     };
+    /** @type {string} */
+    #lastChangedValue;
 
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
@@ -73,6 +75,8 @@ export default class TextInput extends HTMLElement {
     }
 
     set errorMessage(message) {
+        // We reset lastChangedValue because if the same invalid value is entered again, we want to validate this value
+        this.#lastChangedValue = null;
         this.#validityState.setCustomValidity(message);
         this.#errorElement.textContent = this.#validityState.errorMessage;
     }
@@ -105,6 +109,8 @@ export default class TextInput extends HTMLElement {
     #onKeyDown(event) {
         if (this.#inputElement.type === "number" && (event.key === KeyCode.Up || event.key === KeyCode.Down))
             event.preventDefault();
+        if (event.key === KeyCode.Enter && !event.repeat)
+            this.#onChange();
     }
 
     #onInput() {
@@ -113,6 +119,10 @@ export default class TextInput extends HTMLElement {
     }
 
     #onChange() {
+        // We validate if the current value is not equal to the last changed value
+        if (this.#lastChangedValue === this.value)
+            return;
+        this.#lastChangedValue = this.value;
         this.#validateAndNotify();
     }
 
@@ -138,7 +148,7 @@ export default class TextInput extends HTMLElement {
     #addListeners() {
         this.#inputElement.addEventListener("keydown", this.#onKeyDown.bind(this));
         this.#inputElement.addEventListener("input", this.#onInput.bind(this));
-        this.#inputElement.addEventListener("change", this.#onChange.bind(this));
+        this.#inputElement.addEventListener("focusout", this.#onChange.bind(this));
         this.querySelector('.text-input__trailing-icon').addEventListener("click", this.#onTrailingIconClick.bind(this));
         window.addEventListener("visibilitychange", this.#onVisibilityChange.bind(this), { capture: true });
     }
