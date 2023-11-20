@@ -5,6 +5,7 @@ export default class EditText extends HTMLElement {
     #isValid = true;
     #value;
     #suffix = "";
+    #prefix = "";
 
     #resizeObserver = new ResizeObserver(this.#updatePopupPosition.bind(this));
 
@@ -38,7 +39,10 @@ export default class EditText extends HTMLElement {
     }
 
     #getDisplayName(){
-        return `${this.#value}${this.#suffix}`
+        let val = this.#value;
+        if (this.#isNumberType())
+            val = +val;
+        return `${this.#prefix}${val}${this.#suffix}`
     }
 
     #addListeners() {
@@ -70,7 +74,11 @@ export default class EditText extends HTMLElement {
     #onEnter() {
         if (!this.#isValid)
             return;
-        this.#closeAndNotifyOnChange();
+        this.#children.popup.close();
+        if (this.#value !== this.#children.input.value){
+            this.#updateTextValue();
+            this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
+        }
     }
 
     #onKeydown(evt) {
@@ -79,20 +87,12 @@ export default class EditText extends HTMLElement {
             this.#onEnter();
     }
 
-    #closeAndNotifyOnChange() {
-        this.#updateTextValue();
-        this.#children.popup.close();
-        this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
-    }
-
     #updateInputValue() {
         this.#children.input.value = this.#value;
     }
 
     #updateTextValue() {
         this.#value = this.#children.input.value;
-        if (this.#isNumberType())
-            this.#value = +this.#value;
         this.#children.text.textContent = this.#getDisplayName();
     }
 
@@ -109,6 +109,8 @@ export default class EditText extends HTMLElement {
     #initAttributes(){
         if (this.hasAttribute("suffix"))
             this.#suffix = this.getAttribute("suffix");
+        if (this.hasAttribute("prefix"))
+            this.#prefix = this.getAttribute("prefix");
         this.#value = this.getAttribute("value") || "";
     }
 
