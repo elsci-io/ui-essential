@@ -95,8 +95,8 @@ export default class TextInput extends HTMLElement {
             event.preventDefault();
     }
     #onInput() {
-        this.checkValidity();
-        this.#callbacks.onInput.forEach(callback => callback(this.value));
+        const isValid = this.checkValidity();
+        this.#callbacks.onInput.forEach(callback => callback(this.value, isValid));
     }
     #onChange() {
         this.#validateAndNotify();
