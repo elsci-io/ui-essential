@@ -2,6 +2,8 @@ import { KeyCode } from "../utils.js";
 export default class EditText extends HTMLElement {
     #children;
     #isValid = true;
+    #value;
+    #suffix = "";
     #resizeObserver = new ResizeObserver(this.#updatePopupPosition.bind(this));
     #callbacks = {
         onChangeValue: []
@@ -15,15 +17,20 @@ export default class EditText extends HTMLElement {
         };
         this.#addListeners();
         this.#resizeObserver.observe(document.body);
+        this.#initAttributes();
+        this.#updateTextValue();
     }
     disconnectedCallback() {
         this.#resizeObserver.unobserve(document.body);
     }
     value() {
-        return this.#children.text.textContent.trim();
+        return this.#value;
     }
     onChange(cb) {
         this.#callbacks.onChangeValue.push(cb);
+    }
+    #getDisplayName() {
+        return `${this.#value}${this.#suffix}`;
     }
     #addListeners() {
         this.#children.text.addEventListener("click", this.#showPopup.bind(this));
@@ -63,13 +70,13 @@ export default class EditText extends HTMLElement {
         this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
     }
     #updateInputValue() {
-        this.#children.input.value = this.#children.text.textContent;
+        this.#children.input.value = this.#value;
     }
     #updateTextValue() {
-        let value = this.#children.input.value;
+        this.#value = this.#children.input.value;
         if (this.#isNumberType())
-            value = +value;
-        this.#children.text.textContent = value;
+            this.#value = +this.#value;
+        this.#children.text.textContent = this.#getDisplayName();
     }
     #updatePopupPosition() {
         let { top, left } = this.getBoundingClientRect();
@@ -78,6 +85,11 @@ export default class EditText extends HTMLElement {
     }
     #isNumberType() {
         return this.getAttribute("type") === "number";
+    }
+    #initAttributes() {
+        if (this.hasAttribute("suffix"))
+            this.#suffix = this.getAttribute("suffix");
+        this.#value = this.getAttribute("value") || "";
     }
     #htmlTemplate() {
         const requiredAttr = this.hasAttribute("required") ? "required" : "";
@@ -92,7 +104,7 @@ export default class EditText extends HTMLElement {
         if (this.hasAttribute("max"))
             maxAttr = `max="${this.getAttribute("max")}"`;
         const value = this.getAttribute("value");
-        return `<span class="edit-text__text">${value}</span>
+        return `<span class="edit-text__text"></span>
                 <dialog class="edit-text__popup" tabindex="9">
                     <section class="popup-content">
                         <text-input 
