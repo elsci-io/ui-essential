@@ -4,9 +4,6 @@ export default class EditText extends HTMLElement {
     #children;
     #isValid = true;
 
-    static #minChars = 6;
-    static #maxChars = 10;
-    static #inputRightPaddingChars = 1;
     #resizeObserver = new ResizeObserver(this.#updatePopupPosition.bind(this));
 
     #callbacks = {
@@ -50,13 +47,11 @@ export default class EditText extends HTMLElement {
     #showPopup() {
         this.#updateInputValue();
         this.#updatePopupPosition();
-        this.#updateInputWidth(this.value());
         this.#children.popup.showModal();
         this.#children.input.focus();
     }
 
     #onInput(value, isValid) {
-        this.#updateInputWidth(value);
         this.#isValid = isValid;
     }
 
@@ -98,16 +93,6 @@ export default class EditText extends HTMLElement {
         let {top, left} = this.getBoundingClientRect();
         this.#children.popup.style.top = top + window.scrollY + "px";
         this.#children.popup.style.left = left + window.scrollX + "px";
-    }
-
-    #updateInputWidth(value) {
-        const inputWidth = Math.min(
-            EditText.#maxChars,
-            Math.max(
-                EditText.#minChars,
-                value.length + EditText.#inputRightPaddingChars)
-        );
-        this.#children.input.querySelector("input").style.width = inputWidth + "ch";
     }
 
     #isNumberType() {
