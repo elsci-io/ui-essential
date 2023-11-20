@@ -1,0 +1,28 @@
+.edit-text__popup {
+  box-shadow: var(--box-shadow);
+  position: absolute;
+  padding: 0;
+  border: none;
+  margin: -0.7rem 0 0 -0.75rem;
+  width: fit-content;
+}
+
+.edit-text__popup text-input {
+  padding: .5rem .5rem 1rem;
+}
+
+.edit-text__popup .text-input__error {
+  height: unset;
+}
+
+.edit-text__popup::backdrop {
+  background: transparent;
+}
+
+.edit-text__popup .text-input--with-right-icon .text-input__input {
+  padding-right: 0;
+}
+
+edit-text .edit-text__text {
+  text-decoration: underline;
+}

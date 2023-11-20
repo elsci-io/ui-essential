@@ -3,3 +3,8 @@
 @import './TextInput/TextInput.scss';
 @import './SelectInput/SelectInput.scss';
 @import './TypeAheadInput/TypeAheadInput.scss';
+@import './EditText/EditText.scss';
+
+.visually-hidden {
+  display: none !important;
+}

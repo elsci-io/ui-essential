@@ -108,8 +108,8 @@ export default class TextInput extends HTMLElement {
     }
 
     #onInput() {
-        this.checkValidity();
-        this.#callbacks.onInput.forEach(callback => callback(this.value));
+        const isValid = this.checkValidity();
+        this.#callbacks.onInput.forEach(callback => callback(this.value, isValid));
     }
 
     #onChange() {
