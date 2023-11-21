@@ -59,12 +59,15 @@ export default class EditText extends HTMLElement {
         this.#children.popup.close();
     }
     #onEnter() {
-        if (this.#isValid)
+        if (this.#isValid) {
+            this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
+        }
     }
     #onClickOutsideOfInput() {
         this.#children.popup.close();
-        this.#onEnter();
+        if (this.#isValid)
+            this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
         if (this.#value !== this.#children.input.value) {
