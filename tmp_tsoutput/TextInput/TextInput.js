@@ -56,6 +56,7 @@ export default class TextInput extends HTMLElement {
     /** @param {string | null} value */
     set value(value) {
         this.#inputElement.value = (isFiniteNumber(value) || typeof value == "string") ? value : '';
+        this.#lastChangedValue = this.#inputElement.value;
         this.checkValidity();
     }
     checkValidity() {
@@ -68,7 +69,9 @@ export default class TextInput extends HTMLElement {
     }
     set errorMessage(message) {
         // We reset lastChangedValue because if the same invalid value is entered again, we want to validate this value
-        this.#lastChangedValue = null;
+        if (message) {
+            this.#lastChangedValue = null;
+        }
         this.#validityState.setCustomValidity(message);
         this.#errorElement.textContent = this.#validityState.errorMessage;
     }
@@ -106,17 +109,17 @@ export default class TextInput extends HTMLElement {
     }
     #onChange() {
         // We validate if the current value is not equal to the last changed value
-        if (this.#lastChangedValue === this.value)
-            return;
-        this.#lastChangedValue = this.value;
-        this.#validateAndNotify();
+        if (this.#lastChangedValue !== this.value)
+            this.#validateAndNotify();
     }
     #onTrailingIconClick() {
         this.#callbacks.onTrailingIconClick.forEach(callback => callback());
     }
     #validateAndNotify() {
-        this.checkValidity();
-        this.#callbacks.onChangeValue.forEach(callback => callback(this.value));
+        if (this.checkValidity()) {
+            this.#lastChangedValue = this.value;
+            this.#callbacks.onChangeValue.forEach(callback => callback(this.value));
+        }
     }
     #fillInputAttributes() {
         for (const attribute of this.attributes)
