@@ -38,7 +38,7 @@ export default class EditText extends HTMLElement {
     }
     #addListeners() {
         this.#children.text.addEventListener("click", this.#showPopup.bind(this));
-        this.#children.popup.addEventListener('click', this.#onEnter.bind(this));
+        this.#children.popup.addEventListener('click', this.#onClickOutsideOfInput.bind(this));
         this.#children.popup.addEventListener('keydown', this.#onKeydown.bind(this));
         this.#children.input.onInput(this.#onInput.bind(this));
         this.addEventListener("cancel", this.#onEscape.bind(this));
@@ -59,9 +59,14 @@ export default class EditText extends HTMLElement {
         this.#children.popup.close();
     }
     #onEnter() {
-        if (!this.#isValid)
-            return;
+        if (this.#isValid)
+            this.#updateDisplayTextAndNotifyIfChanged();
+    }
+    #onClickOutsideOfInput() {
         this.#children.popup.close();
+        this.#onEnter();
+    }
+    #updateDisplayTextAndNotifyIfChanged() {
         if (this.#value !== this.#children.input.value) {
             this.#updateTextValue();
             this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
