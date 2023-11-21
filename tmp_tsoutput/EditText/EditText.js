@@ -2,7 +2,7 @@ import { KeyCode } from "../utils.js";
 export default class EditText extends HTMLElement {
     #children;
     #isValid = true;
-    #value;
+    #lastEnteredValue;
     #suffix = "";
     #prefix = "";
     #resizeObserver = new ResizeObserver(this.#updatePopupPosition.bind(this));
@@ -25,20 +25,20 @@ export default class EditText extends HTMLElement {
         this.#resizeObserver.unobserve(document.body);
     }
     value() {
-        return this.#value;
+        return this.getAttribute("value");
     }
     onChange(cb) {
         this.#callbacks.onChangeValue.push(cb);
     }
     #getDisplayName() {
-        let val = this.#value;
+        let val = this.value();
         if (this.#isNumberType())
             val = +val;
         return `${this.#prefix}${val}${this.#suffix}`;
     }
     #addListeners() {
         this.#children.text.addEventListener("click", this.#showPopup.bind(this));
-        this.#children.popup.addEventListener('click', this.#onClickOutsideOfInput.bind(this));
+        this.addEventListener('mousedown', this.#onClickOutsideOfInput.bind(this));
         this.#children.popup.addEventListener('keydown', this.#onKeydown.bind(this));
         this.#children.input.onInput(this.#onInput.bind(this));
         this.addEventListener("cancel", this.#onEscape.bind(this));
@@ -52,8 +52,16 @@ export default class EditText extends HTMLElement {
         this.#children.popup.showModal();
         this.#children.input.focus();
     }
-    #onInput(value, isValid) {
+    #onInput(_, isValid) {
         this.#isValid = isValid;
+        const value = this.#children.input.rawValue;
+        if (10 < value.length) {
+            this.#children.input.value = this.#lastEnteredValue;
+            this.#isValid = this.#children.input.checkValidity();
+        }
+        else {
+            this.#lastEnteredValue = value;
+        }
     }
     #onEscape() {
         this.#children.popup.close();
@@ -64,13 +72,17 @@ export default class EditText extends HTMLElement {
             this.#updateDisplayTextAndNotifyIfChanged();
         }
     }
-    #onClickOutsideOfInput() {
+    #onClickOutsideOfInput(event) {
+        if (event.target !== this.#children.popup)
+            return;
+        event.preventDefault();
+        event.stopPropagation();
         this.#children.popup.close();
         if (this.#isValid)
             this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
-        if (this.#value !== this.#children.input.value) {
+        if (this.value() !== this.#children.input.value) {
             this.#updateTextValue();
             this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
         }
@@ -81,10 +93,11 @@ export default class EditText extends HTMLElement {
             this.#onEnter();
     }
     #updateInputValue() {
-        this.#children.input.value = this.#value;
+        this.#lastEnteredValue = this.getAttribute("value");
+        this.#children.input.value = this.#lastEnteredValue;
     }
     #updateTextValue() {
-        this.#value = this.#children.input.value;
+        this.setAttribute("value", this.#children.input.value);
         this.#children.text.textContent = this.#getDisplayName();
     }
     #updatePopupPosition() {
@@ -100,7 +113,6 @@ export default class EditText extends HTMLElement {
             this.#suffix = this.getAttribute("suffix");
         if (this.hasAttribute("prefix"))
             this.#prefix = this.getAttribute("prefix");
-        this.#value = this.getAttribute("value") || "";
     }
     #htmlTemplate() {
         const requiredAttr = this.hasAttribute("required") ? "required" : "";
