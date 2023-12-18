@@ -3,7 +3,7 @@ import TextInputValidityState from "./TextInputValidityState.js";
 import { isFiniteNumber, KeyCode, safeHtml } from "../utils.js";
 export default class TextInput extends HTMLElement {
     static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength",
-        "min", "minlength", "name", "pattern", "readonly", "step", "type", "value"
+        "min", "minlength", "name", "pattern", "readonly", "step", "type", "value", "placeholder"
         /* "required" - we do not want to set attribute required when render text-input, because in this case all
         required inputs becomes red, as solution we just leave it in the root element and do this validation manually */ 
     ]);
@@ -129,6 +129,8 @@ export default class TextInput extends HTMLElement {
         // decimal w/o validation error. So, if step is not specified, then we set it to "any" to allow decimal values.
         if (this.getAttribute("type") === "number" && !this.hasAttribute("step"))
             this.#inputElement.setAttribute("step", "any");
+        if (this.hasAttribute("placeholder"))
+            this.classList.add("placeholder-shown");
     }
     #addListeners() {
         this.#inputElement.addEventListener("keydown", this.#onKeyDown.bind(this));
