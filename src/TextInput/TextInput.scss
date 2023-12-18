@@ -42,6 +42,10 @@ text-input {
     color: transparent;
     user-select: none;
 }
+text-input.placeholder-shown .text-input__input::placeholder {
+    /* If we need a real placeholder, we set color to it. */
+    color: var(--theme-text-hint-on-light);
+}
 .text-input__label {
     position: absolute;
     color: var(--theme-text-hint-on-light);
@@ -71,7 +75,11 @@ text-input {
     transform: translate(var(--text-input__label__left-padding), -0.375rem);
     font-size: var(--text-input__small-font-size);
 }
-
+text-input.placeholder-shown .text-input__label {
+    /*when input has real placeholder, input label must be in the top all time*/
+    transform: translate(var(--text-input__label__left-padding), -0.375rem);
+    font-size: var(--text-input__small-font-size);
+}
 .text-input__input:invalid + .text-input__label {
     /*when we focus on the input, the label should jump on top of the field*/
     color: var(--theme-input-border-error);

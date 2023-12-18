@@ -21,6 +21,15 @@ describe('TextInput', () => {
                 const element = JsDomUtils.insertHtml(`<text-input label="Some label" placeholder="Some placeholder"></text-input>`);
                 assert.strictEqual(element.querySelector('label').textContent, 'Some label');
             });
+            it('set attribute in input', () => {
+                const element = JsDomUtils.insertHtml(`<text-input placeholder="Some placeholder"></text-input>`);
+                assert.strictEqual(element.querySelector('input').getAttribute('placeholder'), 'Some placeholder');
+            });
+            it('add class "placeholder-shown" in text-input', () => {
+                const element = JsDomUtils.insertHtml(`<text-input placeholder="Some placeholder"></text-input>`);
+                console.log(document.body.innerHTML)
+                assert.ok(element.classList.contains('placeholder-shown'));
+            });
         });
         describe('value', () => {
             beforeEach(async () => {
