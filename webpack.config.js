@@ -2,15 +2,18 @@ import path from 'path';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import { fileURLToPath } from 'url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import IgnoreEmitPlugin from "ignore-emit-webpack-plugin/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-    entry: ['./src/index.js', './src/style.scss'],
+    entry: {"index": './src/index.js', "styles": './src/style.scss'},
     output: {
-        filename: 'bundle.js',
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
+        library: 'elsciUiEssentials',
+        libraryTarget: 'umd'
     },
     devtool: "source-map",
     module: {
@@ -34,7 +37,8 @@ export default {
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename: 'index.html'
-        })
+        }),
+        new IgnoreEmitPlugin([/styles.*\.js$/])
     ],
     devServer: {
         static: {
