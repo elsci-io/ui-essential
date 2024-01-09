@@ -135,8 +135,18 @@
             </li>
         </ul>
         <a href="#edit-text">Read more</a></div>
-    </div>
-    <h2 id="text-input">Text Input</h2>
+
+        <hr>
+        <div class="input-element__row"><h3>SnackBar</h3>
+            <ul class="input-element__list">
+                <li class="input-element__item"><button js-showSnackBar>Show SnackBar</button><br></li>
+            </ul>
+
+            <a href="#snackbar">Read more</a>
+        </div>
+        <hr>
+
+        <h2 id="text-input">Text Input</h2>
 
         <div class="input-element__description">
             <div class="input-element__description-text">
@@ -219,7 +229,7 @@ const typeAheadInputOptions = [
 
 typeAheadInput.options = typeAheadInputOptions;
 typeAheadInput.value = typeAheadInputOptions[0];
-                </code></pre>
+                </code></pre></div>
             <h2 id="edit-text">EditText</h2>
             <div class="input-element__description">
                 <div>
@@ -227,10 +237,31 @@ typeAheadInput.value = typeAheadInputOptions[0];
                 </div>
                 <pre class="input-element__description-example">
                     <code class="language-html">
-                        &lt;edit-text name="Precision" required type="number" min="1" max="100"&gt;&lt;/edit-text&gt;
+&lt;edit-text name="Precision" required type="number" min="1" max="100"&gt;&lt;/edit-text&gt;
                     </code>
                 </pre>
             </div>
+            <h2 id="snackbar">SnackBar</h2>
+            <div class="input-element__description">
+                <div>
+                    This component shows small element in the bottom of the page.<br>
+                    <ul>Properties:
+                        <li>- msgText - main text (e.g. Smth was deleted)</li>
+                        <li>- btnText - OK button text (e.g. Undo)</li>
+                        <li>- btnCb - function to be called when OK btn pressed</li>
+                        <li>- ttl - aka TimeToLive in milliseconds</li>
+                    </ul>
+                    You can have multiple snackBars in one page if create components with different ids
+                </div>
+                <pre class="input-element__description-example">
+                    <code class="language-js">
+const snackBar = new SnackBar('id');
+snackBar.show({msgText:'SnackBar text', btnText:'Action', btnCb: ()=> window.alert("Hello world!"), ttl: 15 * 1000})
+                    </code>
+                </pre>
+            </div>
+
+    </div>
 </div>
 <script>
     window.onload = () => {
@@ -261,6 +292,23 @@ typeAheadInput.value = typeAheadInputOptions[0];
         ];
         typeAheadInputActive.options = typeAheadInputOptions;
         typeAheadInputActive.value = typeAheadInputOptions[0];
+
+
+        /* SnackBar */
+        const snackBarButton = document.querySelector('[js-showSnackBar]');
+        function showSnackBar() {
+            new ui.SnackBar().show({msgText:'Button was removed', btnText:'UNDO', btnCb: ()=> showButton(), ttl: 15 * 1000})
+        }
+        function hideButton(){
+            snackBarButton.classList.add('visually-hidden')
+        }
+        function showButton(){
+            snackBarButton.classList.remove('visually-hidden')
+        }
+        snackBarButton.addEventListener('click', ()=>{
+            hideButton();
+            showSnackBar();
+        });
 
         //This code adds color to html and css examples
         hljs.highlightAll();
