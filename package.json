@@ -21,13 +21,15 @@
   "exports": {
     ".": "./src/index.js",
     "./styles": "./src/style.scss",
-    "./bundle.css": "./dist/bundle.css",
-    "./bundle.js": "./dist/bundle.js"
+    "./bundle.css": "./dist/styles.bundle.css",
+    "./bundle.js": "./dist/index.bundle.js"
   },
   "devDependencies": {
     "chai": "4.3.7",
     "css-loader": "6.7.3",
     "html-webpack-plugin": "5.5.3",
+    "ignore-emit-webpack-plugin": "^2.0.6",
+    "jsdom": "22.1.0",
     "mini-css-extract-plugin": "2.7.5",
     "mocha": "10.2.0",
     "sass": "1.62.1",
@@ -38,7 +40,6 @@
     "webpack": "5.82.1",
     "webpack-cli": "5.1.1",
     "webpack-dev-server": "4.15.1",
-    "jsdom": "22.1.0",
     "xhr2": "0.2.1"
   }
 }
