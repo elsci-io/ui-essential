@@ -1,6 +1,6 @@
 {
   "name": "@elsci-io/ui-essential",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "Material Design components created for products built by elsci.io",
   "main": "src/index.js",
   "type": "module",
@@ -21,7 +21,7 @@
   "exports": {
     ".": "./src/index.js",
     "./styles": "./src/style.scss",
-    "./bundle.css": "./dist/styles.bundle.css",
+    "./bundle.css": "./dist/bundle.css",
     "./bundle.js": "./dist/index.bundle.js"
   },
   "devDependencies": {
