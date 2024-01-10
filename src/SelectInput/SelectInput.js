@@ -152,4 +152,7 @@ export default class SelectInput extends HTMLElement {
     }
 }
 
-window.customElements.define(SelectInput.is, SelectInput);
+// Checking, is a custom element already defined
+if(!window.customElements.get(SelectInput.is)){
+    window.customElements.define(SelectInput.is, SelectInput);
+}

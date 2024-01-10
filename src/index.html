@@ -339,7 +339,7 @@ snackBar.show({msgText:'SnackBar text', btnText:'Action', btnCb: ()=> window.ale
         /* SnackBar */
         const snackBarButton = document.querySelector('[js-showSnackBar]');
         function showSnackBar() {
-            new elsciUiEssentials.SnackBar().show({msgText:'Button was removed', btnText:'UNDO', btnCb: ()=> showButton(), ttl: 15 * 1000})
+            new elsciUi.SnackBar().show({msgText:'Button was removed', btnText:'UNDO', btnCb: ()=> showButton(), ttl: 15 * 1000})
         }
         function hideButton(){
             snackBarButton.classList.add('visually-hidden')

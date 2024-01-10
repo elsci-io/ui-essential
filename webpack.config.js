@@ -12,7 +12,7 @@ export default {
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        library: 'elsciUiEssentials',
+        library: 'elsciUi',
         libraryTarget: 'umd'
     },
     devtool: "source-map",

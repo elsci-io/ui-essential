@@ -214,4 +214,7 @@ export default class TypeAheadInput extends HTMLElement {
     }
 }
 
-window.customElements.define(TypeAheadInput.is, TypeAheadInput);
+// Checking, is a custom element already defined
+if(!window.customElements.get(TypeAheadInput.is)){
+    window.customElements.define(TypeAheadInput.is, TypeAheadInput);
+}
