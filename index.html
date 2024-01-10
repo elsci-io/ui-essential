@@ -7,6 +7,9 @@
             --theme-text-hint-on-light: rgba(0, 0, 0, 0.38);
             --theme-input-border-error: rgb(229, 57, 53);
             --theme-text-secondary-on-light: rgba(0, 0, 0, 0.54);
+            --theme-text-primary-on-dark: white;
+            --background-button-disabled: rgba(0, 0, 0, 0.1);
+            --box-shadow-hover: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
         }
         *{
             font-family: 'Lato', sans-serif;
@@ -63,7 +66,46 @@
             background: #dddddd4f;
             border: 1px solid #DDDDDD;
             border-radius: 5px;
-        }</style><script defer="defer" src="bundle.js"></script><link href="bundle.css" rel="stylesheet"></head><body><div class="container"><h1>Elsci Essential Components</h1><p class="github-link">Link to the <a href="https://github.com/elsci-io/ui-essential" target="_blank">GitHub repository</a></p><div class="inputs-elements"><div class="input-element__row"><h3>Text Input</h3><ul class="input-element__list"><li class="input-element__item"><text-input name="TemperatureActive" label="Temperature, C° (Active)" type="number" min="-273" max="999999" required></text-input></li><li class="input-element__item"><text-input name="TemperatureDisabled" label="Temperature, C° (Disabled)" type="number" min="-273" max="999999" disabled=""></text-input></li><li class="input-element__item"><text-input name="TemperatureError" label="Temperature, C° (Error)" type="number" min="-273" max="999999" required></text-input></li></ul><a href="#text-input">Read more</a></div><hr><div class="input-element__row"><h3>Select Input</h3><ul class="input-element__list"><li class="input-element__item"><select-input name="UnitActive" label="Unit (Active)" required></select-input></li><li class="input-element__item"><select-input name="UnitDisabled" label="Unit (Disabled)" disabled=""></select-input></li></ul><a href="#select-input">Read more</a></div><hr><div class="input-element__row"><h3>TypeaheadInput</h3><ul class="input-element__list"><li class="input-element__item"><typeahead-input name="SubstanceActive" label="Substance (Active)" required></typeahead-input></li><li class="input-element__item"><typeahead-input name="SubstanceDisabled" label="Substance (Disabled)" disabled="disabled"></typeahead-input></li><li class="input-element__item"><typeahead-input name="SubstanceError" label="Substance (Error)" required></typeahead-input></li></ul><a href="#typeahead-input">Read more</a></div><hr><div class="input-element__row"><h3>EditText</h3><ul class="input-element__list"><li class="input-element__item"><div><edit-text value="20" step="1" type="number" min="1" max="100" required suffix="m/z"></edit-text></div></li></ul><a href="#edit-text">Read more</a></div></div><h2 id="text-input">Text Input</h2><div class="input-element__description"><div class="input-element__description-text">TextInput - let user enter and edit text. It inherits most of the properties from the native input element.<br>So, you can use most of the native input element attributes to control the text field behavior or change constraints.<br><br>Here we create a text field for entering a temperature value. Let's fill in the attributes:<ul><li>"name" - used to identify the field in the form, so later we can access the value with querySelector 'text-input[name="Temperature"]'.</li><li>"label" - used to display a label for the field.</li><li>"type" - as we are entering a temperature value, we want to use a number type.</li><li>"min" - we want to limit the minimum value to -273 degrees Celsius.</li><li>"max" - we want to limit the maximum value to 999999 degrees Celsius.</li><li>"required" - we want to make the field required, so the user can't submit the form without entering a value.</li></ul></div><pre class="input-element__description-example"><code class="language-html">
+        }
+
+        .button {
+            min-width       : 3rem;
+            min-height      : 2.25rem;
+            font-size       : 0.875rem;
+            line-height     : 1;
+            border-radius   : 0.25rem;
+            letter-spacing  : 0.09em;
+            font-weight     : 500;
+            display         : inline-flex;
+            align-items     : center;
+            justify-content : center;
+            cursor          : pointer;
+            padding         : 0 1rem;
+        }
+
+        .button--contained {
+            background : var(--theme-primary);
+            color      : var(--theme-text-primary-on-dark);
+            border     : 1px solid var(--theme-primary);
+            box-shadow : var(--box-shadow);
+            transition : box-shadow cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .button--contained[disabled] {
+            pointer-events : none;
+            background     : var(--background-button-disabled);
+            box-shadow     : none;
+            border         : 1px solid transparent;
+        }
+
+        .button--contained:hover {
+            opacity    : 0.9;
+            box-shadow : var(--box-shadow-hover);
+        }
+
+        .button--contained:active {
+            opacity : 0.8;
+        }</style><script defer="defer" src="index.bundle.js"></script><link href="bundle.css" rel="stylesheet"></head><body><div class="container"><h1>Elsci Essential Components</h1><p class="github-link">Link to the <a href="https://github.com/elsci-io/ui-essential" target="_blank">GitHub repository</a></p><div class="inputs-elements"><div class="input-element__row"><h3>Text Input</h3><ul class="input-element__list"><li class="input-element__item"><text-input name="TemperatureActive" label="Temperature, C° (Active)" type="number" min="-273" max="999999" required></text-input></li><li class="input-element__item"><text-input name="TemperatureDisabled" label="Temperature, C° (Disabled)" type="number" min="-273" max="999999" disabled=""></text-input></li><li class="input-element__item"><text-input name="TemperatureError" label="Temperature, C° (Error)" type="number" min="-273" max="999999" required></text-input></li></ul><a href="#text-input">Read more</a></div><hr><div class="input-element__row"><h3>Select Input</h3><ul class="input-element__list"><li class="input-element__item"><select-input name="UnitActive" label="Unit (Active)" required></select-input></li><li class="input-element__item"><select-input name="UnitDisabled" label="Unit (Disabled)" disabled=""></select-input></li></ul><a href="#select-input">Read more</a></div><hr><div class="input-element__row"><h3>TypeaheadInput</h3><ul class="input-element__list"><li class="input-element__item"><typeahead-input name="SubstanceActive" label="Substance (Active)" required></typeahead-input></li><li class="input-element__item"><typeahead-input name="SubstanceDisabled" label="Substance (Disabled)" disabled="disabled"></typeahead-input></li><li class="input-element__item"><typeahead-input name="SubstanceError" label="Substance (Error)" required></typeahead-input></li></ul><a href="#typeahead-input">Read more</a></div><hr><div class="input-element__row"><h3>EditText</h3><ul class="input-element__list"><li class="input-element__item"><div><edit-text value="20" step="1" type="number" min="1" max="100" required suffix="m/z"></edit-text></div></li></ul><a href="#edit-text">Read more</a></div><hr><div class="input-element__row"><h3>SnackBar</h3><ul class="input-element__list"><li class="input-element__item"><button class="button button--contained" js-showsnackbar>Show SnackBar</button><br></li></ul><a href="#snackbar">Read more</a></div><hr><h2 id="text-input">Text Input</h2><div class="input-element__description"><div class="input-element__description-text">TextInput - let user enter and edit text. It inherits most of the properties from the native input element.<br>So, you can use most of the native input element attributes to control the text field behavior or change constraints.<br><br>Here we create a text field for entering a temperature value. Let's fill in the attributes:<ul><li>"name" - used to identify the field in the form, so later we can access the value with querySelector 'text-input[name="Temperature"]'.</li><li>"label" - used to display a label for the field.</li><li>"type" - as we are entering a temperature value, we want to use a number type.</li><li>"min" - we want to limit the minimum value to -273 degrees Celsius.</li><li>"max" - we want to limit the maximum value to 999999 degrees Celsius.</li><li>"required" - we want to make the field required, so the user can't submit the form without entering a value.</li></ul></div><pre class="input-element__description-example"><code class="language-html">
 &lt;text-input name="Temperature" label="Temperature, C°" type="number" min="-273" max="999999" required&gt;&lt;/text-input&gt;
                 </code></pre><div>Set the default value.</div><pre class="input-element__description-example"><code>
 const temperature = document.querySelector('text-input[name="Temperature"]');
@@ -95,11 +137,16 @@ const typeAheadInputOptions = [
 
 typeAheadInput.options = typeAheadInputOptions;
 typeAheadInput.value = typeAheadInputOptions[0];
-                </code></pre><h2 id="edit-text">EditText</h2><div class="input-element__description"><div>Displayed as regular text(underlined) but allows editing it's value</div><pre class="input-element__description-example">
+                </code></pre></div><h2 id="edit-text">EditText</h2><div class="input-element__description"><div>Displayed as regular text(underlined) but allows editing it's value</div><pre class="input-element__description-example">
                     <code class="language-html">
-                        &lt;edit-text name="Precision" required type="number" min="1" max="100"&gt;&lt;/edit-text&gt;
+&lt;edit-text name="Precision" required type="number" min="1" max="100"&gt;&lt;/edit-text&gt;
                     </code>
-                </pre></div></div><script>window.onload = () => {
+                </pre></div><h2 id="snackbar">SnackBar</h2><div class="input-element__description"><div>This component shows small element in the bottom of the page.<br><ul>Properties:<li>- msgText - main text (e.g. Smth was deleted)</li><li>- btnText - OK button text (e.g. Undo)</li><li>- btnCb - function to be called when OK btn pressed</li><li>- ttl - aka TimeToLive in milliseconds</li></ul>You can have multiple snackBars in one page if create components with different ids</div><pre class="input-element__description-example">
+                    <code class="language-js">
+const snackBar = new SnackBar('id');
+snackBar.show({msgText:'SnackBar text', btnText:'Action', btnCb: ()=> window.alert("Hello world!"), ttl: 15 * 1000})
+                    </code>
+                </pre></div></div></div><script>window.onload = () => {
         const temperatureActive = document.querySelector('text-input[name="TemperatureActive"]');
         temperatureActive.value = '20';
 
@@ -128,6 +175,23 @@ typeAheadInput.value = typeAheadInputOptions[0];
         typeAheadInputActive.options = typeAheadInputOptions;
         typeAheadInputActive.value = typeAheadInputOptions[0];
 
+
+        /* SnackBar */
+        const snackBarButton = document.querySelector('[js-showSnackBar]');
+        function showSnackBar() {
+            new elsciUiEssentials.SnackBar().show({msgText:'Button was removed', btnText:'UNDO', btnCb: ()=> showButton(), ttl: 15 * 1000})
+        }
+        function hideButton(){
+            snackBarButton.classList.add('visually-hidden')
+        }
+        function showButton(){
+            snackBarButton.classList.remove('visually-hidden')
+        }
+        snackBarButton.addEventListener('click', ()=>{
+            hideButton();
+            showSnackBar();
+        });
+
         //This code adds color to html and css examples
         hljs.highlightAll();
-    };</script></div></body></html>
+    };</script></body></html>
