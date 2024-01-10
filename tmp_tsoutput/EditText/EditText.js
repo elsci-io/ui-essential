@@ -148,4 +148,7 @@ export default class EditText extends HTMLElement {
         return 'edit-text';
     }
 }
-window.customElements.define(EditText.is, EditText);
+// Checking, is a custom element already defined
+if (!window.customElements.get(EditText.is)) {
+    window.customElements.define(EditText.is, EditText);
+}

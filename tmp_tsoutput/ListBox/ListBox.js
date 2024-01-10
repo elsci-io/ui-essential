@@ -165,4 +165,7 @@ export default class ListBox extends HTMLElement {
         return 'list-box';
     }
 }
-window.customElements.define(ListBox.is, ListBox);
+// Checking, is a custom element already defined
+if (!window.customElements.get(ListBox.is)) {
+    window.customElements.define(ListBox.is, ListBox);
+}

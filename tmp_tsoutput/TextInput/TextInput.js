@@ -170,4 +170,7 @@ export default class TextInput extends HTMLElement {
         return 'text-input';
     }
 }
-window.customElements.define(TextInput.is, TextInput);
+// Checking, is a custom element already defined
+if (!window.customElements.get(TextInput.is)) {
+    window.customElements.define(TextInput.is, TextInput);
+}
