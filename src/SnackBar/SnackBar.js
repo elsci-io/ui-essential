@@ -34,7 +34,7 @@ export default class SnackBar {
         this.#snackBarEl = this.#createSnackBarElement(this.#snackBarId, prop);
         this.#setEventListeners();
         this.#timeoutId = setTimeout(() => {
-            this.#removeEl()
+            this.remove()
         }, prop.ttl || 15 * 1000);
     }
 
@@ -62,15 +62,15 @@ export default class SnackBar {
         const okButton = this.#getOkButton();
         if (okButton) {
             okButton.addEventListener('click', () => {
-                this.#removeEl();
+                this.remove();
                 this.#onButtonClickCb();
             })
         }
         const closeButton = this.#getCloseButton();
-        closeButton.addEventListener('click', () => {this.#removeEl()})
+        closeButton.addEventListener('click', () => {this.remove()})
     }
 
-    #removeEl() {
+    remove() {
         this.#snackBarEl.remove();
         const containerEl = SnackBar.#getSnackBarContainerEl();
         if (containerEl.children.length === 0)

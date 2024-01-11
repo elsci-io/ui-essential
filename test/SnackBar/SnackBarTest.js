@@ -1,6 +1,6 @@
 import assert from 'assert';
 import JsDomUtils from "../../../crystaline/src/test/js/utils/JsDomUtils.js";
-import SnackBar from "../../../crystaline/src/main/resources/static/components/SnackBar/SnackBar.js";
+import SnackBar from "../../src/SnackBar/SnackBar.js";
 
 describe('SnackBar', ()=> {
     beforeEach(async ()=>{

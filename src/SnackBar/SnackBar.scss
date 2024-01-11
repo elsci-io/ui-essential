@@ -16,9 +16,11 @@
     justify-content : center;
     box-sizing : border-box;
     flex-direction: column;
+    pointer-events: none;
 }
 
 .snackbar {
+    pointer-events: all;
     margin: 0.5rem;
     background-color : var(--snackbar-background-color);
     min-width : 344px;
