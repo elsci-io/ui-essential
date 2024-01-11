@@ -25,5 +25,6 @@ export default class SnackBar {
         btnCb: Function;
         ttl: number;
     }): void;
+    remove(): void;
     #private;
 }
