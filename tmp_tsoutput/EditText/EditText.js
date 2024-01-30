@@ -113,6 +113,7 @@ export default class EditText extends HTMLElement {
             this.#suffix = this.getAttribute("suffix");
         if (this.hasAttribute("prefix"))
             this.#prefix = this.getAttribute("prefix");
+        this.#children.input.value = this.value();
     }
     #htmlTemplate() {
         const requiredAttr = this.hasAttribute("required") ? "required" : "";
@@ -139,7 +140,6 @@ export default class EditText extends HTMLElement {
                             ${minAttr}
                             ${maxAttr}
                             type="${typeAttr}"
-                            value="${value}"
                         ></text-input>
                     </section>
                 </dialog>`;
