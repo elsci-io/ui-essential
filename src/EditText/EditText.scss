@@ -1,10 +1,14 @@
+edit-text {
+  display: inline-block;
+  max-width: 100%;
+}
+
 .edit-text__popup {
   box-shadow: var(--box-shadow);
   position: absolute;
   padding: 0;
   border: none;
   margin: -0.7rem 0 0 -0.75rem;
-  width: fit-content;
 }
 
 .edit-text__popup text-input {

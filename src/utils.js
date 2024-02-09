@@ -61,3 +61,14 @@ export function isFiniteNumber (value) {
     }
    else return false
 }
+
+/**
+ * Function that rounds a number to a specified number of decimal places.
+ * @param {number} number
+ * @param {number} decimalPlaces
+ * @return {number}
+ */
+export function roundToDecimalPlaces(number, decimalPlaces) {
+    const multiplier = Math.pow(10, decimalPlaces);
+    return Math.round(number * multiplier) / multiplier;
+}
