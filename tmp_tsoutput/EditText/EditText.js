@@ -51,17 +51,10 @@ export default class EditText extends HTMLElement {
         this.#updatePopupPosition();
         this.#children.popup.showModal();
         this.#children.input.focus();
+        this.#children.input.style.width = this.#children.input.rawValue.length + 3 + "ch";
     }
     #onInput(_, isValid) {
         this.#isValid = isValid;
-        const value = this.#children.input.rawValue;
-        if (10 < value.length) {
-            this.#children.input.value = this.#lastEnteredValue;
-            this.#isValid = this.#children.input.checkValidity();
-        }
-        else {
-            this.#lastEnteredValue = value;
-        }
     }
     #onEscape() {
         this.#children.popup.close();
@@ -82,9 +75,20 @@ export default class EditText extends HTMLElement {
             this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
-        if (this.value() !== this.#children.input.value) {
+        if (this.value() !== this.#children.input.value && this.#children.input.value.length) {
             this.#updateTextValue();
             this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
+        }
+        const value = this.#children.input.rawValue;
+        if (value.length === 0 && !this.#children.input.hasAttribute("required")) {
+            this.#children.text.textContent = "set";
+            this.#children.text.toggleAttribute('empty-value', true);
+            this.removeAttribute('value');
+            this.removeAttribute('title');
+        }
+        else {
+            this.#lastEnteredValue = value;
+            this.#children.text.toggleAttribute('empty-value', false);
         }
     }
     #onKeydown(evt) {
@@ -93,17 +97,21 @@ export default class EditText extends HTMLElement {
             this.#onEnter();
     }
     #updateInputValue() {
-        this.#lastEnteredValue = this.getAttribute("value");
-        this.#children.input.value = this.#lastEnteredValue;
+        if (this.hasAttribute('value')) {
+            this.#lastEnteredValue = this.getAttribute("value");
+            this.#children.input.value = this.#lastEnteredValue;
+        }
     }
     #updateTextValue() {
         this.setAttribute("value", this.#children.input.value);
+        this.setAttribute('title', this.#children.input.value);
         this.#children.text.textContent = this.#getDisplayName();
     }
     #updatePopupPosition() {
         let { top, left } = this.getBoundingClientRect();
         this.#children.popup.style.top = top + window.scrollY + "px";
         this.#children.popup.style.left = left + window.scrollX + "px";
+        this.#children.popup.style['max-width'] = this.offsetWidth + 56 + "px";
     }
     #isNumberType() {
         return this.getAttribute("type") === "number";
@@ -127,7 +135,15 @@ export default class EditText extends HTMLElement {
         let maxAttr = "";
         if (this.hasAttribute("max"))
             maxAttr = `max="${this.getAttribute("max")}"`;
-        const value = this.getAttribute("value");
+        let minLengthAttr = "";
+        if (this.hasAttribute("minlength"))
+            minLengthAttr = `minlength="${this.getAttribute("minlength")}"`;
+        let maxLengthAttr = "";
+        if (this.hasAttribute("maxlength"))
+            maxLengthAttr = `maxlength="${this.getAttribute("maxlength")}"`;
+        let patternAttr = "";
+        if (this.hasAttribute("pattern"))
+            patternAttr = `pattern="${this.getAttribute("pattern")}"`;
         return `<span class="edit-text__text"></span>
                 <dialog class="edit-text__popup" tabindex="9">
                     <section class="popup-content">
@@ -139,6 +155,9 @@ export default class EditText extends HTMLElement {
                             ${stepAttr}
                             ${minAttr}
                             ${maxAttr}
+                            ${minLengthAttr}
+                            ${maxLengthAttr}
+                            ${patternAttr}
                             type="${typeAttr}"
                         ></text-input>
                     </section>
