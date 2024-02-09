@@ -30,6 +30,9 @@ export default class EditText extends HTMLElement {
     onChange(cb) {
         this.#callbacks.onChangeValue.push(cb);
     }
+    checkValidity() {
+        return this.#children.input.checkValidity();
+    }
     #getDisplayName() {
         let val = this.value();
         if (this.#isNumberType())

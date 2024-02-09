@@ -4,5 +4,6 @@ export default class EditText extends HTMLElement {
     disconnectedCallback(): void;
     value(): string;
     onChange(cb: any): void;
+    checkValidity(): any;
     #private;
 }
