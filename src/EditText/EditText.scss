@@ -9,10 +9,12 @@ edit-text {
   padding: 0;
   border: none;
   margin: -0.7rem 0 0 -0.75rem;
+  min-width: 4rem;
 }
 
 .edit-text__popup text-input {
   padding: .5rem .5rem 1rem;
+  min-width: 4rem;
 }
 
 .edit-text__popup text-input input{
@@ -42,6 +44,10 @@ edit-text[disabled] .edit-text__text {
   text-decoration: none;
   cursor: default;
   pointer-events: none;
+}
+
+edit-text[incorrect] .edit-text__text{
+  color: var(--theme-input-border-error);
 }
 
 .edit-text__text[empty-value] {
