@@ -4,6 +4,8 @@ export default class EditText extends HTMLElement {
     disconnectedCallback(): void;
     onChange(cb: any): void;
     checkValidity(): any;
+    /** @param {boolean} isIncorrect */
+    toggleIncorrectAttribute(isIncorrect: boolean): void;
     get value(): any;
     set displayTextTransformer(arg: any);
     #private;

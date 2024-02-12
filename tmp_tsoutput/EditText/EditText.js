@@ -31,6 +31,10 @@ export default class EditText extends HTMLElement {
     checkValidity() {
         return this.#children.input.checkValidity();
     }
+    /** @param {boolean} isIncorrect */
+    toggleIncorrectAttribute(isIncorrect) {
+        this.toggleAttribute('incorrect', isIncorrect);
+    }
     get value() {
         return this.#children.input.value;
     }
@@ -54,6 +58,7 @@ export default class EditText extends HTMLElement {
         this.addEventListener("cancel", this.#onEscape.bind(this));
     }
     #showPopup() {
+        this.toggleIncorrectAttribute(false);
         this.#updateInputValue();
         this.#updatePopupPosition();
         this.#children.popup.showModal();
@@ -88,15 +93,18 @@ export default class EditText extends HTMLElement {
         }
         const value = this.#children.input.rawValue;
         if (value.length === 0 && !this.#children.input.hasAttribute("required")) {
-            this.#children.text.textContent = "set";
-            this.#children.text.toggleAttribute('empty-value', true);
-            this.removeAttribute('value');
-            this.removeAttribute('title');
+            this.#setEmptyValue();
         }
         else {
             this.#lastEnteredValue = value;
             this.#children.text.toggleAttribute('empty-value', false);
         }
+    }
+    #setEmptyValue() {
+        this.#children.text.textContent = "set";
+        this.#children.text.toggleAttribute('empty-value', true);
+        this.removeAttribute('value');
+        this.removeAttribute('title');
     }
     #onKeydown(evt) {
         evt.stopPropagation();
@@ -112,7 +120,13 @@ export default class EditText extends HTMLElement {
     #updateTextValue() {
         this.setAttribute("value", this.#children.input.value);
         this.setAttribute('title', this.#children.input.value);
-        this.#children.text.textContent = this.#getDisplayName();
+        let value = this.#getValueAttr();
+        if (typeof value === "string" && value.length > 0) {
+            this.#children.text.textContent = this.#getDisplayName();
+        }
+        else {
+            this.#setEmptyValue();
+        }
     }
     #updatePopupPosition() {
         let { top, left } = this.getBoundingClientRect();
