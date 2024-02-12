@@ -4,22 +4,25 @@ edit-text {
 }
 
 .edit-text__popup {
+  max-width: 100%;
+  min-width: 8rem;
+  width: auto;
   box-shadow: var(--box-shadow);
   position: absolute;
-  padding: 0;
   border: none;
   margin: -0.7rem 0 0 -0.75rem;
-  min-width: 4rem;
+  padding: 0;
 }
 
 .edit-text__popup text-input {
-  padding: .5rem .5rem 1rem;
-  min-width: 4rem;
+  width: calc(100% - 1rem);
+  padding-top: 0;
+  margin: .5rem .5rem 1rem;
 }
 
-.edit-text__popup text-input input{
-  width: 11ch;
-}
+//.edit-text__popup text-input input{
+//  width: 11ch;
+//}
 
 .edit-text__popup .text-input__error {
   height: unset;
@@ -31,7 +34,7 @@ edit-text {
 
 .edit-text__popup .text-input--with-right-icon .text-input__input {
   padding-right: 0;
-  width: inherit;
+  //width: inherit;
 }
 
 edit-text .edit-text__text {
