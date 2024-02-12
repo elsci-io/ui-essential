@@ -1,10 +1,11 @@
-import { KeyCode } from "../utils.js";
+import { getTextWidth, KeyCode, roundToDecimalPlaces } from "../utils.js";
 export default class EditText extends HTMLElement {
     #children;
     #isValid = true;
     #lastEnteredValue;
     #suffix = "";
     #prefix = "";
+    #displayTextTransformer = (value) => value;
     #resizeObserver = new ResizeObserver(this.#updatePopupPosition.bind(this));
     #callbacks = {
         onChangeValue: []
@@ -24,17 +25,23 @@ export default class EditText extends HTMLElement {
     disconnectedCallback() {
         this.#resizeObserver.unobserve(document.body);
     }
-    value() {
-        return this.getAttribute("value");
-    }
     onChange(cb) {
         this.#callbacks.onChangeValue.push(cb);
     }
     checkValidity() {
         return this.#children.input.checkValidity();
     }
+    get value() {
+        return this.#children.input.value;
+    }
+    set displayTextTransformer(f) {
+        this.#displayTextTransformer = f;
+    }
+    #getValueAttr() {
+        return this.getAttribute("value");
+    }
     #getDisplayName() {
-        let val = this.value();
+        let val = this.#displayTextTransformer(this.#getValueAttr());
         if (this.#isNumberType())
             val = +val;
         return `${this.#prefix}${val}${this.#suffix}`;
@@ -45,16 +52,13 @@ export default class EditText extends HTMLElement {
         this.#children.popup.addEventListener('keydown', this.#onKeydown.bind(this));
         this.#children.input.onInput(this.#onInput.bind(this));
         this.addEventListener("cancel", this.#onEscape.bind(this));
-        this.querySelector(".popup-content").addEventListener("click", (event) => {
-            event.stopPropagation();
-        });
     }
     #showPopup() {
         this.#updateInputValue();
         this.#updatePopupPosition();
         this.#children.popup.showModal();
         this.#children.input.focus();
-        this.#children.input.style.width = this.#children.input.rawValue.length + 3 + "ch";
+        this.#setInputWidth(this.#children.input, this.#children.input.rawValue);
     }
     #onInput(_, isValid) {
         this.#isValid = isValid;
@@ -78,9 +82,9 @@ export default class EditText extends HTMLElement {
             this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
-        if (this.value() !== this.#children.input.value && this.#children.input.value.length) {
+        if (this.#getValueAttr() !== this.#children.input.value && this.#children.input.value.length) {
             this.#updateTextValue();
-            this.#callbacks.onChangeValue.forEach(cb => cb(this.value()));
+            this.#callbacks.onChangeValue.forEach(cb => cb(this.#getValueAttr()));
         }
         const value = this.#children.input.rawValue;
         if (value.length === 0 && !this.#children.input.hasAttribute("required")) {
@@ -114,17 +118,23 @@ export default class EditText extends HTMLElement {
         let { top, left } = this.getBoundingClientRect();
         this.#children.popup.style.top = top + window.scrollY + "px";
         this.#children.popup.style.left = left + window.scrollX + "px";
-        this.#children.popup.style['max-width'] = this.offsetWidth + 56 + "px";
+        this.#children.popup.style['max-width'] = this.offsetWidth + 16 + "px";
     }
     #isNumberType() {
         return this.getAttribute("type") === "number";
+    }
+    #setInputWidth(element, text) {
+        const textWidth = getTextWidth(text);
+        element.style.width = textWidth + 16 + "px";
     }
     #initAttributes() {
         if (this.hasAttribute("suffix"))
             this.#suffix = this.getAttribute("suffix");
         if (this.hasAttribute("prefix"))
             this.#prefix = this.getAttribute("prefix");
-        this.#children.input.value = this.value();
+        this.#children.input.value = this.#getValueAttr();
+        if (this.hasAttribute("scale"))
+            this.displayTextTransformer = (text) => roundToDecimalPlaces(text, parseInt(this.getAttribute("scale")));
     }
     #htmlTemplate() {
         const requiredAttr = this.hasAttribute("required") ? "required" : "";
@@ -149,7 +159,6 @@ export default class EditText extends HTMLElement {
             patternAttr = `pattern="${this.getAttribute("pattern")}"`;
         return `<span class="edit-text__text"></span>
                 <dialog class="edit-text__popup" tabindex="9">
-                    <section class="popup-content">
                         <text-input 
                             class="text-input--with-right-icon" 
                             label="" 
@@ -163,7 +172,6 @@ export default class EditText extends HTMLElement {
                             ${patternAttr}
                             type="${typeAttr}"
                         ></text-input>
-                    </section>
                 </dialog>`;
     }
     static get is() {
