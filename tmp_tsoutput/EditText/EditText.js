@@ -63,7 +63,6 @@ export default class EditText extends HTMLElement {
         this.#updatePopupPosition();
         this.#children.popup.showModal();
         this.#children.input.focus();
-        this.#setInputWidth(this.#children.input, this.#children.input.rawValue);
     }
     #onInput(_, isValid) {
         this.#isValid = isValid;
@@ -132,20 +131,29 @@ export default class EditText extends HTMLElement {
         let { top, left } = this.getBoundingClientRect();
         this.#children.popup.style.top = top + window.scrollY + "px";
         this.#children.popup.style.left = left + window.scrollX + "px";
-        this.#children.popup.style['max-width'] = this.offsetWidth + 16 + "px";
+        if (!this.hasAttribute('max-width')) {
+            this.#children.popup.style['max-width'] = Math.max(this.offsetWidth + 16, 128) + "px";
+        }
+        else {
+            this.#children.popup.style.width = getTextWidth(this.#children.input.rawValue) + 16 + "px";
+        }
     }
     #isNumberType() {
         return this.getAttribute("type") === "number";
-    }
-    #setInputWidth(element, text) {
-        const textWidth = getTextWidth(text);
-        element.style.width = textWidth + 16 + "px";
     }
     #initAttributes() {
         if (this.hasAttribute("suffix"))
             this.#suffix = this.getAttribute("suffix");
         if (this.hasAttribute("prefix"))
             this.#prefix = this.getAttribute("prefix");
+        if (this.hasAttribute("max-width")) {
+            this.#children.popup.style['max-width'] = this.getAttribute("max-width") + 'px';
+            this.#children.input.style['max-width'] = this.getAttribute("max-width") - 16 + 'px';
+        }
+        if (this.hasAttribute("min-width")) {
+            this.#children.popup.style['min-width'] = this.getAttribute("min-width") + 'px';
+            this.#children.input.style['min-width'] = this.getAttribute("min-width") - 16 + 'px';
+        }
         this.#children.input.value = this.#getValueAttr();
         if (this.hasAttribute("scale"))
             this.displayTextTransformer = (text) => roundToDecimalPlaces(text, parseInt(this.getAttribute("scale")));
