@@ -31,7 +31,7 @@ export default class EditText extends HTMLElement {
         this.#resizeObserver.unobserve(document.body);
     }
 
-    onChange(cb){
+    onChange(cb) {
         this.#callbacks.onChangeValue.push(cb);
     }
 
@@ -40,7 +40,7 @@ export default class EditText extends HTMLElement {
     }
 
     /** @param {boolean} isIncorrect */
-    toggleIncorrectAttribute(isIncorrect){
+    toggleIncorrectAttribute(isIncorrect) {
         this.toggleAttribute('incorrect', isIncorrect)
     }
 
@@ -56,7 +56,7 @@ export default class EditText extends HTMLElement {
         return this.getAttribute("value");
     }
 
-    #getDisplayName(){
+    #getDisplayName() {
         let val = this.#displayTextTransformer(this.#getValueAttr());
         if (this.#isNumberType())
             val = +val;
@@ -88,10 +88,8 @@ export default class EditText extends HTMLElement {
     }
 
     #onEnter() {
-        if (this.#isValid) {
-            this.#children.popup.close();
-            this.#updateDisplayTextAndNotifyIfChanged();
-        }
+        this.#children.popup.close();
+        this.#updateDisplayTextAndNotifyIfChanged();
     }
 
     #onClickOutsideOfInput(event) {
@@ -100,12 +98,15 @@ export default class EditText extends HTMLElement {
         event.preventDefault();
         event.stopPropagation();
         this.#children.popup.close();
-        if (this.#isValid)
-            this.#updateDisplayTextAndNotifyIfChanged();
+        this.#updateDisplayTextAndNotifyIfChanged();
     }
 
     #updateDisplayTextAndNotifyIfChanged() {
-        if (this.#getValueAttr() !== this.#children.input.value && this.#children.input.value.length){
+        if (!this.#isValid){
+            this.#children.input.value = this.#getValueAttr();
+            return
+        }
+        if (this.#getValueAttr() !== this.#children.input.value && this.#children.input.value.length) {
             this.#updateTextValue();
             this.#callbacks.onChangeValue.forEach(cb => cb(this.#getValueAttr()));
         }
@@ -118,7 +119,7 @@ export default class EditText extends HTMLElement {
         }
     }
 
-    #setEmptyValue(){
+    #setEmptyValue() {
         this.#children.text.textContent = "set";
         this.#children.text.toggleAttribute('empty-value', true)
         this.removeAttribute('value');
@@ -132,7 +133,7 @@ export default class EditText extends HTMLElement {
     }
 
     #updateInputValue() {
-        if (this.hasAttribute('value')){
+        if (this.hasAttribute('value')) {
             this.#lastEnteredValue = this.getAttribute("value");
             this.#children.input.value = this.#lastEnteredValue;
         }
@@ -164,7 +165,7 @@ export default class EditText extends HTMLElement {
         return this.getAttribute("type") === "number"
     }
 
-    #initAttributes(){
+    #initAttributes() {
         if (this.hasAttribute("suffix"))
             this.#suffix = this.getAttribute("suffix");
         if (this.hasAttribute("prefix"))
@@ -179,7 +180,7 @@ export default class EditText extends HTMLElement {
         }
 
         this.#children.input.value = this.#getValueAttr();
-        if(this.hasAttribute("scale"))
+        if (this.hasAttribute("scale"))
             this.displayTextTransformer = (text) => roundToDecimalPlaces(text, parseInt(this.getAttribute("scale")));
     }
 
@@ -228,6 +229,6 @@ export default class EditText extends HTMLElement {
 }
 
 // Checking, is a custom element already defined
-if(!window.customElements.get(EditText.is)){
+if (!window.customElements.get(EditText.is)) {
     window.customElements.define(EditText.is, EditText);
 }
