@@ -71,10 +71,8 @@ export default class EditText extends HTMLElement {
         this.#children.popup.close();
     }
     #onEnter() {
-        if (this.#isValid) {
-            this.#children.popup.close();
-            this.#updateDisplayTextAndNotifyIfChanged();
-        }
+        this.#children.popup.close();
+        this.#updateDisplayTextAndNotifyIfChanged();
     }
     #onClickOutsideOfInput(event) {
         if (event.target !== this.#children.popup)
@@ -82,10 +80,13 @@ export default class EditText extends HTMLElement {
         event.preventDefault();
         event.stopPropagation();
         this.#children.popup.close();
-        if (this.#isValid)
-            this.#updateDisplayTextAndNotifyIfChanged();
+        this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
+        if (!this.#isValid) {
+            this.#children.input.value = this.#getValueAttr();
+            return;
+        }
         if (this.#getValueAttr() !== this.#children.input.value && this.#children.input.value.length) {
             this.#updateTextValue();
             this.#callbacks.onChangeValue.forEach(cb => cb(this.#getValueAttr()));
