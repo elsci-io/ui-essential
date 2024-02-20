@@ -128,7 +128,7 @@ export default class EditText extends HTMLElement {
 
     #onKeydown(evt) {
         evt.stopPropagation();
-        if (evt.key === KeyCode.Enter && !evt.repeat)
+        if (evt.key === KeyCode.Enter && !evt.repeat && this.#isValid)
             this.#onEnter();
     }
 
