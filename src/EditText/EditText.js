@@ -14,6 +14,9 @@ export default class EditText extends HTMLElement {
         onChangeValue: []
     }
 
+    /** @type {InputValidator[]} */
+    #externalValidators = [];
+
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
         this.#children = {
@@ -42,6 +45,11 @@ export default class EditText extends HTMLElement {
     /** @param {boolean} isIncorrect */
     toggleIncorrectAttribute(isIncorrect) {
         this.toggleAttribute('incorrect', isIncorrect)
+    }
+
+    /** @param {InputValidator} validator */
+    addExternalValidator(validator) {
+        this.#externalValidators.push(validator);
     }
 
     get value() {
@@ -88,8 +96,10 @@ export default class EditText extends HTMLElement {
     }
 
     #onEnter() {
-        this.#children.popup.close();
-        this.#updateDisplayTextAndNotifyIfChanged();
+        if (this.#validateWithExternalValidators()) {
+            this.#children.popup.close();
+            this.#updateDisplayTextAndNotifyIfChanged();
+        }
     }
 
     #onClickOutsideOfInput(event) {
@@ -97,8 +107,21 @@ export default class EditText extends HTMLElement {
             return;
         event.preventDefault();
         event.stopPropagation();
-        this.#children.popup.close();
-        this.#updateDisplayTextAndNotifyIfChanged();
+        if (this.#validateWithExternalValidators()) {
+            this.#children.popup.close();
+            this.#updateDisplayTextAndNotifyIfChanged();
+        }
+    }
+
+    #validateWithExternalValidators() {
+        for (const validator of this.#externalValidators) {
+            const result = validator.validate(this, this.value);
+            if (!result.isValid) {
+                this.#children.input.errorMessage = result.errorMessage;
+                return false;
+            }
+        }
+        return true;
     }
 
     #updateDisplayTextAndNotifyIfChanged() {
