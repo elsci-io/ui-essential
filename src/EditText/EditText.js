@@ -56,6 +56,11 @@ export default class EditText extends HTMLElement {
         return this.#children.input.value;
     }
 
+    set value(value) {
+        this.#children.input.value = value;
+        this.#updateTextValue();
+    }
+
     set displayTextTransformer(f) {
         this.#displayTextTransformer = f;
     }
@@ -165,6 +170,7 @@ export default class EditText extends HTMLElement {
     #updateTextValue() {
         this.setAttribute("value", this.#children.input.value);
         this.setAttribute('title', this.#children.input.value);
+        this.#children.text.toggleAttribute('empty-value', false)
         let value = this.#getValueAttr();
         if (typeof value === "string" && value.length > 0) {
             this.#children.text.textContent = this.#getDisplayName();
