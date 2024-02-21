@@ -10,6 +10,8 @@ export default class EditText extends HTMLElement {
     #callbacks = {
         onChangeValue: []
     };
+    /** @type {InputValidator[]} */
+    #externalValidators = [];
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
         this.#children = {
@@ -34,6 +36,10 @@ export default class EditText extends HTMLElement {
     /** @param {boolean} isIncorrect */
     toggleIncorrectAttribute(isIncorrect) {
         this.toggleAttribute('incorrect', isIncorrect);
+    }
+    /** @param {InputValidator} validator */
+    addExternalValidator(validator) {
+        this.#externalValidators.push(validator);
     }
     get value() {
         return this.#children.input.value;
@@ -71,16 +77,30 @@ export default class EditText extends HTMLElement {
         this.#children.popup.close();
     }
     #onEnter() {
-        this.#children.popup.close();
-        this.#updateDisplayTextAndNotifyIfChanged();
+        if (this.#validateWithExternalValidators()) {
+            this.#children.popup.close();
+            this.#updateDisplayTextAndNotifyIfChanged();
+        }
     }
     #onClickOutsideOfInput(event) {
         if (event.target !== this.#children.popup)
             return;
         event.preventDefault();
         event.stopPropagation();
-        this.#children.popup.close();
-        this.#updateDisplayTextAndNotifyIfChanged();
+        if (this.#validateWithExternalValidators()) {
+            this.#children.popup.close();
+            this.#updateDisplayTextAndNotifyIfChanged();
+        }
+    }
+    #validateWithExternalValidators() {
+        for (const validator of this.#externalValidators) {
+            const result = validator.validate(this, this.value);
+            if (!result.isValid) {
+                this.#children.input.errorMessage = result.errorMessage;
+                return false;
+            }
+        }
+        return true;
     }
     #updateDisplayTextAndNotifyIfChanged() {
         if (!this.#isValid) {

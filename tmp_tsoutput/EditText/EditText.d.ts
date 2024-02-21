@@ -6,6 +6,8 @@ export default class EditText extends HTMLElement {
     checkValidity(): any;
     /** @param {boolean} isIncorrect */
     toggleIncorrectAttribute(isIncorrect: boolean): void;
+    /** @param {InputValidator} validator */
+    addExternalValidator(validator: InputValidator): void;
     get value(): any;
     set displayTextTransformer(arg: any);
     #private;
