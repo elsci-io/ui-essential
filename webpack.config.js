@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-    entry: {"index": './src/index.js', "styles": './src/style.scss'},
+    entry: {"index": './src/index.js', "styles": './src/style.scss', "utils": "./src/indexUtils.js"},
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
