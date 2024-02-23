@@ -1,5 +1,5 @@
 export default class TextInput extends HTMLElement {
-    static "__#4@#INPUT_ATTRIBUTES": Set<string>;
+    static "__#5@#INPUT_ATTRIBUTES": Set<string>;
     static get is(): string;
     connectedCallback(): void;
     /** @param {string | null} value */
