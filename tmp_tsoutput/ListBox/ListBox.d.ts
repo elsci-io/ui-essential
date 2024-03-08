@@ -12,6 +12,8 @@ export default class ListBox extends HTMLElement {
     get options(): {
         displayName: string;
     }[];
+    /** @param {function|null} comparator */
+    set comparator(arg: Function);
     /**
      * @param {string} filter
      */

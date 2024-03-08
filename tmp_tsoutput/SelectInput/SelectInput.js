@@ -18,6 +18,10 @@ export default class SelectInput extends HTMLElement {
     set options(options) {
         this.#dropdownElement.options = options;
     }
+    /** @param {function|null} comparator */
+    set comparator(comparator) {
+        this.#dropdownElement.comparator = comparator;
+    }
     showDropdown() {
         this.#dropdownElement.show();
         this.#callbacks.onShowDropdown.forEach(callback => callback());

@@ -3,6 +3,8 @@ export default class SelectInput extends HTMLElement {
     set value(arg: any);
     get value(): any;
     set options(arg: any);
+    /** @param {function|null} comparator */
+    set comparator(arg: Function);
     showDropdown(): void;
     onShowDropdown(callback: any): void;
     onChangeValue(callback: any): void;
