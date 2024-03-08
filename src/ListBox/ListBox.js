@@ -5,6 +5,8 @@ export default class ListBox extends HTMLElement {
     #values = [];
     #maxItemWidth = 0;
     #selectedElementIndex = -1;
+    /** @type {function|null} */
+    #comparator = (a, b) => a.displayName.localeCompare(b.displayName);
     #callbacks = {
         onOptionClick: []
     }
@@ -25,6 +27,11 @@ export default class ListBox extends HTMLElement {
         this.#listElement = this.querySelector("ul");
         this.#updatePosition();
         this.#addListeners();
+    }
+
+    /** @param {function|null} comparator */
+    set comparator(comparator) {
+        this.#comparator = comparator;
     }
 
     /**
@@ -108,8 +115,15 @@ export default class ListBox extends HTMLElement {
         this.#addListeners();
     }
 
+    /**
+     * @param {{displayName:string}[]}values
+     */
     #setValues(values) {
-        this.#values = [...values].sort((a, b) => a.displayName.localeCompare(b.displayName));
+        if (typeof this.#comparator === "function") {
+            this.#values = [...values].sort(this.#comparator);
+        } else {
+            this.#values = values
+        }
     }
 
     #getVisibleElements() {
