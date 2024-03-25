@@ -2,17 +2,20 @@ text-input {
     /*We probably shouldn't do it, but the label can be declared outside of md-text-input when it relates
     to several fields at the time. So declaring the var at the root level for now.*/
     --text-input__small-font-size: .75rem;
+    /*We use another line height for errors because if line-height = font-size, error message is hidden at the bottom*/
+    --text-input__error-line-height: 1rem;
     --text-input__label__left-padding: .25rem;
     /*we need to use transform for labels, and they work only for absolutely positioned elements.
     And those in turn need some non-statically position parent - otherwise it'll be positioned relative
     to some other grand-parent and will fly away somewhere*/
     position: relative;
     /*leaving space for label to fly to when the field is active*/
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
     font-size: 1rem;
     /*  Html template of this component has its own style where "display : none" this trick allows element
      to be hidden until main css file is loaded */
     display: block;
+    overflow-x: clip;
 }
 
 .text-input__input {
@@ -23,7 +26,8 @@ text-input {
     border-bottom: 1px solid #DDD;
     /*when input is focused it has an outline which we don't want*/
     outline: none;
-    line-height: 1.5rem;
+    /* without line-height highlight in input looks better */
+    //line-height: 1.5rem;
     padding: .1rem 0 .1em var(--text-input__label__left-padding);
     font-size: 1rem;
     color: var(--theme-text-primary-on-light);
@@ -49,7 +53,7 @@ text-input.placeholder-shown .text-input__input::placeholder {
 .text-input__label {
     position: absolute;
     color: var(--theme-text-hint-on-light);
-    bottom: 2rem;
+    bottom: 2.25rem;
     left: 0;
     margin: 0;
 
@@ -97,7 +101,7 @@ text-input.placeholder-shown .text-input__label {
 .text-input__error {
     margin : 0;
     font-size: var(--text-input__small-font-size);
-    height: var(--text-input__small-font-size);
+    height: var(--text-input__error-line-height);
     color: var(--theme-input-border-error);
     padding-left: var(--text-input__label__left-padding);
 }

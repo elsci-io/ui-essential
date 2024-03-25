@@ -1,6 +1,12 @@
+select-input {
+    height: 4rem;
+    width: 100%;
+    display: inline-block;
+}
+
 select-input list-box {
     display: none;
-    margin-top: -0.625rem;
+    margin-top: -0.875rem;
 }
 
 select-input text-input {
@@ -10,4 +16,3 @@ select-input text-input {
 select-input text-input .text-input__trailing-icon{
     pointer-events: none;
 }
-
