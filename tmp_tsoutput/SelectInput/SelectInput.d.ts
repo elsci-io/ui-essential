@@ -5,6 +5,8 @@ export default class SelectInput extends HTMLElement {
     set options(arg: any);
     /** @param {function|null} comparator */
     set comparator(arg: Function);
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled: boolean): void;
     showDropdown(): void;
     onShowDropdown(callback: any): void;
     onChangeValue(callback: any): void;

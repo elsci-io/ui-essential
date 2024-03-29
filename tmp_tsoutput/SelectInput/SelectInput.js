@@ -22,6 +22,11 @@ export default class SelectInput extends HTMLElement {
     set comparator(comparator) {
         this.#dropdownElement.comparator = comparator;
     }
+    /** @param {boolean} isDisabled */
+    setDisabled(isDisabled) {
+        this.toggleAttribute("disabled", isDisabled);
+        this.#inputElement.setDisabled(isDisabled);
+    }
     showDropdown() {
         this.#dropdownElement.show();
         this.#callbacks.onShowDropdown.forEach(callback => callback());
