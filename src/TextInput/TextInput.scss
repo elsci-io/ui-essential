@@ -45,6 +45,7 @@ text-input {
      using JS. There's a pseudo-class :placeholder-shown which allows us to control where the label is positioned.*/
     color: transparent;
     user-select: none;
+    -webkit-user-select: none;
 }
 text-input.placeholder-shown .text-input__input::placeholder {
     /* If we need a real placeholder, we set color to it. */
