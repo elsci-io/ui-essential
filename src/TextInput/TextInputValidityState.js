@@ -53,9 +53,10 @@ export default class TextInputValidityState {
 			{badInput, customError, patternMismatch, typeMismatch, valid, rangeOverflow, rangeUnderflow, tooLong,
 				tooShort, valueMissing, stepMismatch},
 			this.#isBlanknessConstraintViolated(),
-			this.#isRangeConstraintViolated()
+			this.#isRangeConstraintViolated(),
+			this.#isStepConstraintViolated()
 		);
-		cv.valid = !cv.valueMissing && !cv.rangeUnderflow && !cv.rangeOverflow;
+		cv.valid = !cv.valueMissing && !cv.rangeUnderflow && !cv.rangeOverflow && !cv.stepMismatch;
 		return cv;
 	}
 
@@ -82,14 +83,41 @@ export default class TextInputValidityState {
 		return {rangeUnderflow: (min !== "" && +value < +min), rangeOverflow: (max !== "" && +value > +max)};
 	}
 
+	/**
+	 * This method serves to supplement internal validation to determine whether a float qualifies as an integer.
+	 * The internal validation for an input type="number" step="1" doesn't consistently cover all cases.
+	 * For example, the number 2.00000001 might be considered an integer by the internal validator.
+	 * So we are using attribute 'number-type="integer"'
+	 * The aim is to widen this validation range. Now, the comparison for an integer works correctly when a number
+	 * has no more than 16 digits. However, if a number has 17 digits or more, this function returns incorrect result.
+	 * @return {{stepMismatch: boolean}}
+	 */
+	#isStepConstraintViolated() {
+		if (this.#inputElement.type !== "number")
+			return {stepMismatch: false};
+		const numberType = this.#textInput.getAttribute('number-type');
+		if (!numberType || numberType !== "integer")
+			return {stepMismatch: false};
+		const stepMismatch =  !Number.isInteger(this.#inputElement.valueAsNumber);
+		return {stepMismatch: stepMismatch};
+	}
+
 	#getValidationMessage(validityState) {
 		const isTypeNumber = this.#inputElement.type === "number";
 		const {badInput, rangeOverflow, rangeUnderflow, tooLong, tooShort, valueMissing, stepMismatch} = validityState;
 		if (isTypeNumber && badInput)
 			return "Invalid number";
-		if (isTypeNumber && stepMismatch && this.#inputElement.step === "1") {
-			// Here we validate only floats because if step is 1, then the value must be an integer.
-			return "Must be an integer";
+		if (isTypeNumber && stepMismatch) {
+			if (this.#inputElement.step === "1" ){
+				// Here we checked floats because if step is 1, then the value must be an integer.
+				// Now we can use attribute 'number-type="integer"', but we have previously written inputs,
+				// that's why don't want to remove this code
+				return "Must be an integer";
+			}
+			const numberType = this.#textInput.getAttribute('number-type');
+			if (numberType || numberType === "integer") {
+				return "Must be an integer";
+			}
 		}
 		if (rangeOverflow)
 			return "Greater than " + this.#inputElement.max;
