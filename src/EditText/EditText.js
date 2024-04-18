@@ -234,6 +234,9 @@ export default class EditText extends HTMLElement {
         let patternAttr = "";
         if (this.hasAttribute("pattern"))
             patternAttr = `pattern="${this.getAttribute("pattern")}"`
+        let numberTypeAttr = "";
+        if (this.hasAttribute("number-type"))
+            numberTypeAttr = `number-type="${this.getAttribute("number-type")}"`
         return `<span class="edit-text__text"></span>
                 <dialog class="edit-text__popup" tabindex="9">
                         <text-input 
@@ -247,6 +250,7 @@ export default class EditText extends HTMLElement {
                             ${minLengthAttr}
                             ${maxLengthAttr}
                             ${patternAttr}
+                            ${numberTypeAttr}
                             type="${typeAttr}"
                         ></text-input>
                 </dialog>`;
