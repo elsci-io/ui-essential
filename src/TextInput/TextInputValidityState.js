@@ -90,6 +90,11 @@ export default class TextInputValidityState {
 	 * So we are using attribute 'number-type="integer"'
 	 * The aim is to widen this validation range. Now, the comparison for an integer works correctly when a number
 	 * has no more than 16 digits. However, if a number has 17 digits or more, this function returns incorrect result.
+	 *
+	 * We use StepMismatch property because internal validation writes this error to this property
+	 * StepMismatch property of a ValidityState object indicates if the value of an <input>, after having been edited
+	 * by the user, does not conform to the constraints set by the element's step attribute.
+	 *
 	 * @return {{stepMismatch: boolean}}
 	 */
 	#isStepConstraintViolated() {
