@@ -105,6 +105,7 @@ text-input.placeholder-shown .text-input__label {
     height: var(--text-input__error-line-height);
     color: var(--theme-input-border-error);
     padding-left: var(--text-input__label__left-padding);
+    text-align: start;
 }
 
 .text-input--with-right-icon .text-input__input, .text-input--select .text-input__input {
