@@ -62,7 +62,8 @@ export default class EditText extends HTMLElement {
     }
     #addListeners() {
         this.#children.text.addEventListener("click", this.#showPopup.bind(this));
-        this.addEventListener('mousedown', this.#onClickOutsideOfInput.bind(this));
+        // Beware of "mousedown" because click event still could be triggered on the element below edit-text
+        this.addEventListener('click', this.#onClickOutsideOfInput.bind(this));
         this.#children.popup.addEventListener('keydown', this.#onKeydown.bind(this));
         this.#children.input.onInput(this.#onInput.bind(this));
         this.addEventListener("cancel", this.#onEscape.bind(this));
@@ -87,10 +88,10 @@ export default class EditText extends HTMLElement {
         }
     }
     #onClickOutsideOfInput(event) {
-        if (event.target !== this.#children.popup)
-            return;
         event.preventDefault();
         event.stopPropagation();
+        if (event.target !== this.#children.popup)
+            return;
         if (this.#validateWithExternalValidators()) {
             this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
