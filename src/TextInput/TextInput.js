@@ -23,6 +23,9 @@ export default class TextInput extends HTMLElement {
     };
     /** @type {string} */
     #lastChangedValue;
+    // @ts-ignore
+    /** @type {InputValidator} */
+    #externalValidators = [];
 
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
@@ -40,6 +43,12 @@ export default class TextInput extends HTMLElement {
         // The case is happening when user adds new element to the table and then sorts it by reinserting rows.
         this.setAttribute("value", this.value);
         window.removeEventListener("visibilitychange", this.#onVisibilityChange.bind(this), { capture: true });
+    }
+
+    // @ts-ignore
+    /** @param {InputValidator} validator */
+    addExternalValidator(validator) {
+        this.#externalValidators.push(validator);
     }
 
     /**
@@ -66,9 +75,20 @@ export default class TextInput extends HTMLElement {
     }
 
     checkValidity() {
-        const isValid = this.#validityState.checkValidity();
+        if (!this.#validityState.checkValidity()){
+            this.errorMessage = this.#validityState.errorMessage;
+            return false;
+        }
         this.errorMessage = this.#validityState.errorMessage;
-        return isValid;
+        for (const /**@type {InputValidator} */ validator of this.#externalValidators) {
+            const result = validator.validate(this, this.value);
+            if (!result.isValid) {
+                this.errorMessage = result.errorMessage;
+                this.focus()
+                return false;
+            }
+        }
+        return true;
     }
 
     get errorMessage() {
