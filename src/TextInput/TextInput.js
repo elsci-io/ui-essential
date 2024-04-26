@@ -2,6 +2,9 @@
 import TextInputValidityState from "./TextInputValidityState.js";
 import {isFiniteNumber, KeyCode, safeHtml} from "../utils.js"
 
+/**
+ * @typedef {import("../InputValidator.js").default} InputValidator
+ */
 export default class TextInput extends HTMLElement {
     static #INPUT_ATTRIBUTES = new Set(["autocomplete", "autofocus", "disabled", "max", "maxlength",
         "min", "minlength", "name", "pattern", "readonly", "step", "type", "value", "placeholder"
@@ -23,9 +26,7 @@ export default class TextInput extends HTMLElement {
     };
     /** @type {string} */
     #lastChangedValue;
-    // @ts-ignore
-    // It doesn't recognise the type correctly even though we have already specified the type of #validators.
-    /** @type {InputValidator[]}} */
+    /** @type {InputValidator[]} */
     #validators = [];
 
     connectedCallback() {
@@ -46,7 +47,6 @@ export default class TextInput extends HTMLElement {
         window.removeEventListener("visibilitychange", this.#onVisibilityChange.bind(this), { capture: true });
     }
 
-    // @ts-ignore
     /** @param {InputValidator} validator */
     addValidator(validator) {
         this.#validators.push(validator);
@@ -81,7 +81,7 @@ export default class TextInput extends HTMLElement {
             return false;
         }
         this.errorMessage = this.#validityState.errorMessage;
-        for (const /**@type {InputValidator} */ validator of this.#validators) {
+        for (const validator of this.#validators) {
             const result = validator.validate(this, this.value);
             if (!result.isValid) {
                 this.errorMessage = result.errorMessage;
