@@ -13,7 +13,7 @@ export default class InputValidator {
         this.#errorMessage = errorMessage;
     }
     /**
-     * @param {EditText} inputEl
+     * @param {TextInput} inputEl
      * @param {*} valueToValidate
      * @return {ValidationResult}
      */

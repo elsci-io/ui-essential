@@ -10,8 +10,6 @@ export default class EditText extends HTMLElement {
     #callbacks = {
         onChangeValue: []
     };
-    /** @type {InputValidator[]} */
-    #externalValidators = [];
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
         this.#children = {
@@ -37,9 +35,16 @@ export default class EditText extends HTMLElement {
     toggleIncorrectAttribute(isIncorrect) {
         this.toggleAttribute('incorrect', isIncorrect);
     }
-    /** @param {InputValidator} validator */
+    /**
+     * @deprecated
+     * @param {InputValidator} validator
+     * */
     addExternalValidator(validator) {
-        this.#externalValidators.push(validator);
+        this.#children.input.addValidator(validator);
+    }
+    /** @param {InputValidator} validator */
+    addValidator(validator) {
+        this.#children.input.addValidator(validator);
     }
     get value() {
         return this.#children.input.value;
@@ -82,7 +87,7 @@ export default class EditText extends HTMLElement {
         this.#children.popup.close();
     }
     #onEnter() {
-        if (this.#validateWithExternalValidators()) {
+        if (this.checkValidity()) {
             this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
         }
@@ -92,20 +97,10 @@ export default class EditText extends HTMLElement {
         event.stopPropagation();
         if (event.target !== this.#children.popup)
             return;
-        if (this.#validateWithExternalValidators()) {
+        if (this.checkValidity()) {
             this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
         }
-    }
-    #validateWithExternalValidators() {
-        for (const validator of this.#externalValidators) {
-            const result = validator.validate(this, this.value);
-            if (!result.isValid) {
-                this.#children.input.errorMessage = result.errorMessage;
-                return false;
-            }
-        }
-        return true;
     }
     #updateDisplayTextAndNotifyIfChanged() {
         if (!this.#isValid) {

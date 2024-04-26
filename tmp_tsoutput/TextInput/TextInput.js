@@ -23,6 +23,10 @@ export default class TextInput extends HTMLElement {
     };
     /** @type {string} */
     #lastChangedValue;
+    // @ts-ignore
+    // It doesn't recognise the type correctly even though we have already specified the type of #validators.
+    /** @type {InputValidator[]}} */
+    #validators = [];
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
         this.#inputElement = this.querySelector("input");
@@ -38,6 +42,11 @@ export default class TextInput extends HTMLElement {
         // The case is happening when user adds new element to the table and then sorts it by reinserting rows.
         this.setAttribute("value", this.value);
         window.removeEventListener("visibilitychange", this.#onVisibilityChange.bind(this), { capture: true });
+    }
+    // @ts-ignore
+    /** @param {InputValidator} validator */
+    addValidator(validator) {
+        this.#validators.push(validator);
     }
     /**
      * Returns trimmed value of the input.
@@ -60,9 +69,20 @@ export default class TextInput extends HTMLElement {
         this.checkValidity();
     }
     checkValidity() {
-        const isValid = this.#validityState.checkValidity();
+        if (!this.#validityState.checkValidity()) {
+            this.errorMessage = this.#validityState.errorMessage;
+            return false;
+        }
         this.errorMessage = this.#validityState.errorMessage;
-        return isValid;
+        for (const /**@type {InputValidator} */ validator of this.#validators) {
+            const result = validator.validate(this, this.value);
+            if (!result.isValid) {
+                this.errorMessage = result.errorMessage;
+                this.focus();
+                return false;
+            }
+        }
+        return true;
     }
     get errorMessage() {
         return this.#errorElement.textContent;

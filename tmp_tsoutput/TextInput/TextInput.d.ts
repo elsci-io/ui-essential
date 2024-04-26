@@ -10,6 +10,8 @@ export default class TextInput extends HTMLElement {
      */
     get value(): string;
     disconnectedCallback(): void;
+    /** @param {InputValidator} validator */
+    addValidator(validator: InputValidator): void;
     /**
      * Returns raw value of the input.
      * @returns {string}
