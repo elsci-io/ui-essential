@@ -14,9 +14,6 @@ export default class EditText extends HTMLElement {
         onChangeValue: []
     }
 
-    /** @type {InputValidator[]} */
-    #externalValidators = [];
-
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
         this.#children = {
@@ -49,7 +46,7 @@ export default class EditText extends HTMLElement {
 
     /** @param {InputValidator} validator */
     addExternalValidator(validator) {
-        this.#externalValidators.push(validator);
+        this.#children.input.addExternalValidator(validator);
     }
 
     get value() {
@@ -102,7 +99,7 @@ export default class EditText extends HTMLElement {
     }
 
     #onEnter() {
-        if (this.#validateWithExternalValidators()) {
+        if (this.checkValidity()) {
             this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
         }
@@ -113,21 +110,10 @@ export default class EditText extends HTMLElement {
         event.stopPropagation();
         if (event.target !== this.#children.popup)
             return;
-        if (this.#validateWithExternalValidators()) {
+        if (this.checkValidity()) {
             this.#children.popup.close();
             this.#updateDisplayTextAndNotifyIfChanged();
         }
-    }
-
-    #validateWithExternalValidators() {
-        for (const validator of this.#externalValidators) {
-            const result = validator.validate(this, this.value);
-            if (!result.isValid) {
-                this.#children.input.errorMessage = result.errorMessage;
-                return false;
-            }
-        }
-        return true;
     }
 
     #updateDisplayTextAndNotifyIfChanged() {
