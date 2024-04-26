@@ -1,3 +1,6 @@
+/**
+ * @typedef {import("../InputValidator.js").default} InputValidator
+ */
 export default class TextInput extends HTMLElement {
     static "__#5@#INPUT_ATTRIBUTES": Set<string>;
     static get is(): string;
@@ -31,3 +34,4 @@ export default class TextInput extends HTMLElement {
     setDisabled(isDisabled: boolean): void;
     #private;
 }
+export type InputValidator = import("../InputValidator.js").default;
