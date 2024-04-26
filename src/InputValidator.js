@@ -17,7 +17,7 @@ export default class InputValidator {
     }
 
     /**
-     * @param {EditText} inputEl
+     * @param {TextInput} inputEl
      * @param {*} valueToValidate
      * @return {ValidationResult}
      */
