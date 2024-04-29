@@ -97,10 +97,8 @@ export default class EditText extends HTMLElement {
         event.stopPropagation();
         if (event.target !== this.#children.popup)
             return;
-        if (this.checkValidity()) {
-            this.#children.popup.close();
-            this.#updateDisplayTextAndNotifyIfChanged();
-        }
+        this.#children.popup.close();
+        this.#updateDisplayTextAndNotifyIfChanged();
     }
     #updateDisplayTextAndNotifyIfChanged() {
         if (!this.#isValid) {
