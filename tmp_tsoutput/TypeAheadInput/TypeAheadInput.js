@@ -152,6 +152,9 @@ export default class TypeAheadInput extends HTMLElement {
         return false;
     }
     #filterDatalist() {
+        // We use attribute "nofiltering" when make filtration ourselves
+        if (this.hasAttribute('nofiltering'))
+            return;
         this.#dropdownElement.filter = this.#inputElement.value;
     }
     #isValueChanged() {
@@ -160,6 +163,7 @@ export default class TypeAheadInput extends HTMLElement {
     #addListeners() {
         const input = this.#inputElement.querySelector("input");
         this.addEventListener("keydown", this.#onKeydown.bind(this));
+        this.addEventListener("keyup", (event) => { event.stopPropagation(); });
         input.addEventListener("input", this.#onInput.bind(this));
         input.addEventListener("blur", this.#onBlur.bind(this));
         input.addEventListener('focus', this.#onFocus.bind(this));
