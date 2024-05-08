@@ -131,6 +131,11 @@ export default class ListBox extends HTMLElement {
     }
 
     #addListeners() {
+        this.#listElement.addEventListener("mousedown", (evt)=>{
+            // When we use TypeAhead Input or Select Input in dialog and click on scroll bar, dialog takes focus
+            // and list box is closed. So we need to prevent the default behavior of the mousedown event
+            evt.preventDefault();
+        })
         for (const li of this.querySelectorAll("li")) {
             li.addEventListener('mousedown', () => {
                 const option = this.#values[li.dataset.index];

@@ -5,13 +5,15 @@ list-box ul {
     box-shadow: var(--box-shadow);
     background-color: var(--theme-element-background);
     grid-template-columns: 1fr;
-    width: max-content;
     max-height: 10rem;
     padding: 0;
     border-radius: 0.375rem;
     color: var(--theme-text-primary-on-light);
     z-index: 9;
     overflow-y: auto;
+    // For now we want to limit dropdown width to 100%, but previous logic is not removed, and we can return to
+    // calculated width if necessary.
+    max-width: 100%;
 }
 
 list-box li {

@@ -1,6 +1,13 @@
+typeahead-input {
+    display: inline-block;
+    width: 100%;
+    height: 4rem;
+}
+
 typeahead-input list-box {
     display: none;
-    margin-top: -0.625rem;
+    margin-top: -0.825rem;
+    position: relative;
 }
 
 typeahead-input.dropdown-select text-input .text-input__input {
