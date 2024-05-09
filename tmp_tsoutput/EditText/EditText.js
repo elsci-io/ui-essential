@@ -71,7 +71,7 @@ export default class EditText extends HTMLElement {
         this.addEventListener('click', this.#onClickOutsideOfInput.bind(this));
         this.#children.popup.addEventListener('keydown', this.#onKeydown.bind(this));
         this.#children.input.onInput(this.#onInput.bind(this));
-        this.addEventListener("cancel", this.#onEscape.bind(this));
+        this.#children.popup.addEventListener("cancel", this.#onEscape.bind(this));
     }
     #showPopup() {
         this.toggleIncorrectAttribute(false);
@@ -84,7 +84,7 @@ export default class EditText extends HTMLElement {
         this.#isValid = isValid;
     }
     #onEscape() {
-        this.#children.popup.close();
+        this.#children.input.value = this.#lastEnteredValue;
     }
     #onEnter() {
         if (this.checkValidity()) {
@@ -126,6 +126,8 @@ export default class EditText extends HTMLElement {
     }
     #onKeydown(evt) {
         evt.stopPropagation();
+        if (evt.repeat)
+            return;
         if (evt.key === KeyCode.Enter && !evt.repeat && this.#isValid)
             this.#onEnter();
     }
