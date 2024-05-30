@@ -7,6 +7,8 @@ export default class ListBox extends HTMLElement {
     #selectedElementIndex = -1;
     /** @type {function|null} */
     #comparator = (a, b) => a.displayName.localeCompare(b.displayName);
+    /** @type {string} */
+    #mode;
     #callbacks = {
         onOptionClick: []
     }
@@ -25,6 +27,7 @@ export default class ListBox extends HTMLElement {
         this.#setValues(values);
         this.innerHTML = this.#htmlTemplate();
         this.#listElement = this.querySelector("ul");
+        if (this.#isHtmlMode()) this.#setIndexes();
         this.#updatePosition();
         this.#addListeners();
     }
@@ -32,6 +35,11 @@ export default class ListBox extends HTMLElement {
     /** @param {function|null} comparator */
     set comparator(comparator) {
         this.#comparator = comparator;
+    }
+
+    /** @param {string} mode */
+    set mode(mode) {
+        this.#mode = mode;
     }
 
     /**
@@ -115,6 +123,14 @@ export default class ListBox extends HTMLElement {
         this.#addListeners();
     }
 
+    #isHtmlMode(){
+        return this.#mode === "HTML"
+    }
+
+    #setIndexes(){
+        this.#listElement.querySelectorAll('li').forEach((item, index)=> item.setAttribute(`data-index`, index))
+    }
+
     /**
      * @param {{displayName:string}[]}values
      */
@@ -145,6 +161,10 @@ export default class ListBox extends HTMLElement {
     }
 
     #htmlTemplate() {
+        if(this.#mode === "HTML"){
+            return `<ul>${this.#values.join("")}</ul>`
+        }
+
         return `
             <ul>
                 ${this.#values.map((value, i) =>
@@ -155,7 +175,7 @@ export default class ListBox extends HTMLElement {
 
     #updatePosition() {
         const parentClientRect = this.parentElement.getBoundingClientRect();
-        if (this.#maxItemWidth === 0) // calculate max item width only once
+        if (this.#maxItemWidth === 0 && !this.#isHtmlMode()) // calculate max item width only once
             this.#maxItemWidth = Math.max(...this.#values.map(value => getTextWidth(value.displayName)), 0);
         // if parent element width is greater than max item width, set list width to parent width
         const widthToBe = Math.max(this.#maxItemWidth + 24/*paddings*/ + 22/*scrollbar*/, parentClientRect.width);

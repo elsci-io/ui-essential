@@ -39,6 +39,11 @@ export default class TypeAheadInput extends HTMLElement {
         this.#inputElement.value = value && value.displayName ? value.displayName : "";
     }
 
+    /** @param {function|null} comparator */
+    set comparator(comparator) {
+        this.#dropdownElement.comparator = comparator;
+    }
+
     /**
      * Sets the initial value of the input, as well as the last valid value.
      */
@@ -50,6 +55,10 @@ export default class TypeAheadInput extends HTMLElement {
     set options(options) {
         this.#dropdownElement.options = options;
         this.#filterDatalist();
+    }
+
+    set mode(mode) {
+        this.#dropdownElement.mode = mode;
     }
 
     set errorMessage(message) {
