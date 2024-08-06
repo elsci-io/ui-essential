@@ -1,6 +1,6 @@
 {
   "name": "@elsci-io/ui-essential",
-  "version": "1.0.63",
+  "version": "1.0.64",
   "description": "Material Design components created for products built by elsci.io",
   "main": "src/index.js",
   "type": "module",
