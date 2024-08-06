@@ -132,7 +132,7 @@ export default class ListBox extends HTMLElement {
     #htmlTemplate() {
         return `
             <ul>
-                ${this.#values.map((value, i) => safeHtml `<li data-index="${i}" title="${value.displayName}">${value.displayName}</li>`).join('')}
+                ${this.#values.map((value, i) => safeHtml `<li data-index="${i}" title="${value.title || value.displayName}">${value.displayName}</li>`).join('')}
             </ul>`;
     }
     #updatePosition() {
