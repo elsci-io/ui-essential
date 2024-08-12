@@ -6,8 +6,15 @@ select-input {
 
 select-input list-box {
     display: none;
-    margin-top: -0.875rem;
-    position: relative;
+    margin-top: 3rem;
+    // We use a fixed position because we want to specify the location ourselves (related to the browser window,
+    // not closest positioned relative)
+    position: fixed;
+    z-index: 9;
+}
+
+select-input list-box[open] {
+    display: block;
 }
 
 select-input text-input {
