@@ -1,6 +1,5 @@
-list-box ul {
-    display: grid;
-    position: absolute;
+list-box dialog {
+    //position: absolute;
     margin: 0;
     box-shadow: var(--box-shadow);
     background-color: var(--theme-element-background);
@@ -14,6 +13,10 @@ list-box ul {
     // For now we want to limit dropdown width to 100%, but previous logic is not removed, and we can return to
     // calculated width if necessary.
     max-width: 100%;
+}
+
+list-box dialog::backdrop {
+    background: transparent;
 }
 
 list-box li {

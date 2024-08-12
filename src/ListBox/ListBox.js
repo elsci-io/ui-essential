@@ -24,7 +24,7 @@ export default class ListBox extends HTMLElement {
     set options(values) {
         this.#setValues(values);
         this.innerHTML = this.#htmlTemplate();
-        this.#listElement = this.querySelector("ul");
+        this.#listElement = this.querySelector("dialog");
         this.#updatePosition();
         this.#addListeners();
     }
@@ -55,13 +55,20 @@ export default class ListBox extends HTMLElement {
     }
 
     show() {
-        this.style.display = 'block';
+        console.log('show')
+        this.#listElement.showModal();
         this.#updatePosition();
     }
 
     hide() {
-        this.style.display = 'none';
+        console.log('hide')
+        this.#listElement.close();
         this.#resetCurrentSelection();
+    }
+
+    /** @returns {HTMLDialogElement} */
+    getListElement(){
+        return this.#listElement
     }
 
     selectNextItem() {
@@ -102,7 +109,8 @@ export default class ListBox extends HTMLElement {
     }
 
     isVisible() {
-        return window.getComputedStyle(this).display !== 'none'
+        return this.#listElement.open;
+        // return window.getComputedStyle(this).display !== 'none'
     }
 
     onOptionClick(cb) {
@@ -111,7 +119,7 @@ export default class ListBox extends HTMLElement {
 
     connectedCallback() {
         this.innerHTML = this.#htmlTemplate();
-        this.#listElement = this.querySelector("ul");
+        this.#listElement = this.querySelector("dialog");
         this.#addListeners();
     }
 
@@ -130,12 +138,22 @@ export default class ListBox extends HTMLElement {
         return [...this.#listElement.querySelectorAll('li:not([hidden])')];
     }
 
+
+    #onClickOutsideOfInput(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.target !== this.#listElement)
+            return;
+        this.hide();
+    }
+
     #addListeners() {
         this.#listElement.addEventListener("mousedown", (evt)=>{
             // When we use TypeAhead Input or Select Input in dialog and click on scroll bar, dialog takes focus
             // and list box is closed. So we need to prevent the default behavior of the mousedown event
             evt.preventDefault();
         })
+        this.addEventListener('click', this.#onClickOutsideOfInput.bind(this));
         for (const li of this.querySelectorAll("li")) {
             li.addEventListener('mousedown', () => {
                 const option = this.#values[li.dataset.index];
@@ -146,15 +164,17 @@ export default class ListBox extends HTMLElement {
 
     #htmlTemplate() {
         return `
-            <ul>
+            <dialog>
                 ${this.#values.map((value, i) =>
             safeHtml`<li data-index="${i}" title="${value.title || value.displayName}">${value.displayName}</li>`
         ).join('')}
-            </ul>`;
+            </dialog>`;
     }
 
     #updatePosition() {
         const parentClientRect = this.parentElement.getBoundingClientRect();
+        this.#listElement.style.top = parentClientRect.top + 46 + "px";
+        this.#listElement.style.left = parentClientRect.left + "px";
         if (this.#maxItemWidth === 0) // calculate max item width only once
             this.#maxItemWidth = Math.max(...this.#values.map(value => getTextWidth(value.displayName)), 0);
         // if parent element width is greater than max item width, set list width to parent width
@@ -167,6 +187,7 @@ export default class ListBox extends HTMLElement {
             this.#listElement.style.right = null;
         }
         this.#listElement.style.width = `${Math.min(widthToBe, document.documentElement.clientWidth)}px`;
+        this.#listElement.style.maxWidth = parentClientRect.width + "px";
     }
 
     #getSelectedElement() {

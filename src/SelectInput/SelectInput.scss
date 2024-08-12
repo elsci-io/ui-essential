@@ -2,12 +2,13 @@ select-input {
     height: 4rem;
     width: 100%;
     display: inline-block;
+    //position: relative;
 }
 
 select-input list-box {
-    display: none;
-    margin-top: -0.875rem;
-    position: relative;
+    //display: inline-block;
+    //margin-top: -0.875rem;
+    //position: relative;
 }
 
 select-input text-input {

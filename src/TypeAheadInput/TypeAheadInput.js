@@ -190,8 +190,8 @@ export default class TypeAheadInput extends HTMLElement {
         this.addEventListener("keydown", this.#onKeydown.bind(this));
         this.addEventListener("keyup", (event)=>{event.stopPropagation()});
         input.addEventListener("input", this.#onInput.bind(this));
-        input.addEventListener("blur", this.#onBlur.bind(this));
-        input.addEventListener('focus', this.#onFocus.bind(this));
+        // input.addEventListener("blur", this.#onBlur.bind(this));
+        // input.addEventListener('focus', this.#onFocus.bind(this));
         this.#inputElement.onTrailingIconClick(this.#onClearIconClick.bind(this));
         this.#inputElement.onChangeValue(this.#onInputValueChange.bind(this));
         this.#dropdownElement.onOptionClick(this.#onOptionClick.bind(this));
