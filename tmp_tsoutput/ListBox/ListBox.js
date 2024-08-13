@@ -9,6 +9,7 @@ export default class ListBox extends HTMLElement {
     #callbacks = {
         onOptionClick: []
     };
+    #preventScrollFunction;
     /**
      * @returns {{displayName:string}[]}
      */
@@ -49,11 +50,13 @@ export default class ListBox extends HTMLElement {
         }
     }
     show() {
-        this.style.display = 'block';
+        document.addEventListener("wheel", this.#preventScrollFunction, { capture: true, passive: false });
+        this.toggleAttribute('open', true);
         this.#updatePosition();
     }
     hide() {
-        this.style.display = 'none';
+        document.removeEventListener("wheel", this.#preventScrollFunction, { capture: true, passive: false });
+        this.toggleAttribute('open', false);
         this.#resetCurrentSelection();
     }
     selectNextItem() {
@@ -92,7 +95,7 @@ export default class ListBox extends HTMLElement {
         return this.#getSelectedElement() != null;
     }
     isVisible() {
-        return window.getComputedStyle(this).display !== 'none';
+        return this.hasAttribute('open');
     }
     onOptionClick(cb) {
         this.#callbacks.onOptionClick.push(cb);
@@ -101,6 +104,27 @@ export default class ListBox extends HTMLElement {
         this.innerHTML = this.#htmlTemplate();
         this.#listElement = this.querySelector("ul");
         this.#addListeners();
+        // This function is needed to stop scrolling all page, except of list-box
+        // Otherwise select and typeahead inputs can be scrolled, but list-box fixed in the page
+        this.#preventScrollFunction = (evt) => {
+            if (!this.contains(evt.target)) {
+                // When scrolling outside the list-box
+                evt.stopPropagation();
+                evt.preventDefault();
+            }
+            else {
+                const isScrollingUp = evt.deltaY < 0;
+                const isScrollingDown = evt.deltaY > 0;
+                const isListScrolledToItsTop = this.#listElement.scrollTop === 0;
+                const isListScrolledToItsBottom = this.#listElement.scrollTop + this.#listElement.clientHeight >= this.#listElement.scrollHeight;
+                const nothingToScrollUp = isScrollingUp & isListScrolledToItsTop;
+                const nothingToScrollDown = isScrollingDown & isListScrolledToItsBottom;
+                if (nothingToScrollUp || nothingToScrollDown) {
+                    evt.stopPropagation();
+                    evt.preventDefault();
+                }
+            }
+        };
     }
     /**
      * @param {{displayName:string}[]}values
@@ -150,6 +174,8 @@ export default class ListBox extends HTMLElement {
             this.#listElement.style.right = null;
         }
         this.#listElement.style.width = `${Math.min(widthToBe, document.documentElement.clientWidth)}px`;
+        this.style.width = `${Math.min(widthToBe, document.documentElement.clientWidth)}px`;
+        this.style.top = `${parentClientRect.top}px`;
     }
     #getSelectedElement() {
         return this.querySelector(`li[data-index="${this.#selectedElementIndex}"]`);
