@@ -7,8 +7,16 @@ typeahead-input {
 typeahead-input list-box {
     display: none;
     margin-top: 3rem;
-    // We use a fixed position because we want to specify the location ourselves (related to the browser window,
-    // not closest positioned relative)
+    // We use a fixed position because we want to specify the location ourselves (relative to the browser window,
+    // not closest positioned relative). At the moment this has an issue - if the parent element location is
+    // dynamic (e.g. % or vh), the parent will move with the resize of the window, while current element will
+    // stay where it was.
+    //
+    // Using absolute positioning would make this element non-reusable. It's a universal component that potentially
+    // can be used inside a positioned element. Which would make the list-box part of the stacking context of that
+    // positioned element, which in turn could overlap with other elements (and push them or show up underneath
+    // those neighboring elements). One of the problems we had is that it then would impact the sizes of a dialog
+    // and scrollbars could show up.
     position: fixed;
     z-index: 9;
 }
