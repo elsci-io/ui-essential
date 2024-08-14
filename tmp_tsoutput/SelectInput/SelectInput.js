@@ -49,13 +49,9 @@ export default class SelectInput extends HTMLElement {
     #addListeners() {
         this.addEventListener("keydown", this.#onKeydown.bind(this));
         const input = this.#inputElement.querySelector("input");
-        input.addEventListener('focus', this.#onFocus.bind(this));
         input.addEventListener("focusout", this.#onFocusout.bind(this));
         input.addEventListener("click", this.#onInputClick.bind(this));
         this.#dropdownElement.onOptionClick(this.#onOptionClick.bind(this));
-    }
-    #onFocus() {
-        this.showDropdown();
     }
     #onFocusout() {
         this.#hideDropdownAndValidate();
@@ -66,7 +62,10 @@ export default class SelectInput extends HTMLElement {
         this.#hideDropdownAndValidate();
     }
     #onInputClick() {
-        this.showDropdown();
+        if (this.#dropdownElement.isVisible())
+            this.#dropdownElement.hide();
+        else
+            this.showDropdown();
     }
     #onKeydown(event) {
         if ([KeyCode.Up, KeyCode.Down].includes(event.code)) {
