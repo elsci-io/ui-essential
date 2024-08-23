@@ -32,6 +32,8 @@ export default class TextInput extends HTMLElement {
     focus(options: any): void;
     /** @param {boolean} isDisabled */
     setDisabled(isDisabled: boolean): void;
+    /** @param {string} placeholderText */
+    setPlaceholder(placeholderText: string): void;
     #private;
 }
 export type InputValidator = import("../InputValidator.js").default;
