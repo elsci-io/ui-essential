@@ -1,4 +1,4 @@
-import { KeyCode } from "../utils.js";
+import { KeyCode, safeHtml } from "../utils.js";
 export default class SelectInput extends HTMLElement {
     #inputElement;
     #dropdownElement;
