@@ -1,4 +1,4 @@
-import {KeyCode, safeHtml} from "../utils.js";
+import {KeyCode} from "../utils.js";
 
 export default class SelectInput extends HTMLElement {
     #inputElement;
@@ -33,6 +33,11 @@ export default class SelectInput extends HTMLElement {
     setDisabled(isDisabled) {
         this.toggleAttribute("disabled", isDisabled);
         this.#inputElement.setDisabled(isDisabled);
+    }
+
+    /** @param {string} placeholderText */
+    setPlaceholder(placeholderText){
+        this.#inputElement.setPlaceholder(placeholderText);
     }
 
     showDropdown() {

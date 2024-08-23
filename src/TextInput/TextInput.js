@@ -1,6 +1,6 @@
 // @ts-check
 import TextInputValidityState from "./TextInputValidityState.js";
-import {isFiniteNumber, KeyCode, safeHtml} from "../utils.js"
+import {isFiniteNumber, KeyCode, safeHtml, safeText} from "../utils.js"
 
 /**
  * @typedef {import("../InputValidator.js").default} InputValidator
@@ -127,6 +127,12 @@ export default class TextInput extends HTMLElement {
     setDisabled(isDisabled) {
         this.toggleAttribute("disabled", isDisabled);
         this.#inputElement.toggleAttribute("disabled", isDisabled);
+    }
+
+    /** @param {string} placeholderText */
+    setPlaceholder(placeholderText){
+        this.#inputElement.setAttribute('placeholder', safeText(placeholderText));
+        this.classList.add("placeholder-shown");
     }
 
     /** @param {KeyboardEvent} event */
