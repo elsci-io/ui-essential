@@ -47,6 +47,11 @@ export default class TypeAheadInput extends HTMLElement {
         this.#lastValidValue = value;
     }
 
+    /** @param {function|null} comparator */
+    set comparator(comparator) {
+        this.#dropdownElement.comparator = comparator;
+    }
+
     set options(options) {
         this.#dropdownElement.options = options;
         this.#filterDatalist();
