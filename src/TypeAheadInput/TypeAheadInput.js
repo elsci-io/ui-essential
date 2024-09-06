@@ -99,6 +99,7 @@ export default class TypeAheadInput extends HTMLElement {
 
     #onClearIconClick() {
         this.value = {displayName: ""};
+        this.#validateAndNotify();
         this.#inputElement.querySelector('input').focus();
     }
 
