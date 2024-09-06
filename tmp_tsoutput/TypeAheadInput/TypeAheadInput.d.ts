@@ -8,6 +8,8 @@ export default class TypeAheadInput extends HTMLElement {
      * Sets the initial value of the input, as well as the last valid value.
      */
     set initialValue(arg: any);
+    /** @param {function|null} comparator */
+    set comparator(arg: Function);
     set options(arg: any);
     set errorMessage(arg: any);
     checkValidity(): any;
